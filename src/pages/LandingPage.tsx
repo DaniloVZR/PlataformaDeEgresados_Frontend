@@ -1,5 +1,5 @@
 export const LandingPage = () => {
   return (
-    <div>LandingPage</div>
+    <div>Esto es un test</div>
   )
 }
