@@ -1,0 +1,179 @@
+/*GOOGLE FONTS*/
+@import url('https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+/*RESET*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'SUSE Mono', monospace;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: url('C:\Users\juan3\Documents\PlataformaDeEgresados_Frontend\Assets\background.jpg') no-repeat center center/cover;
+}
+
+#root {
+  width: 100%;
+  padding: 0 0.6rem;
+}
+
+.login-container{
+  max-width: 410px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.login-container .form-title{
+  text-align: center;
+  font-size: 1.37rem;
+  font-weight: 600;
+  margin-bottom: 1.87rem;
+}
+
+.login-container .social-login{
+  display: flex;
+  gap: 1.31rem;
+}
+
+.social-login .social-button{
+  flex-grow: 1;
+  display: flex;
+  width: 100px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.83rem;
+  font-weight: 500;
+  padding: 0.7rem 0;
+  cursor: pointer;
+  border-radius: 0.30rem;
+  background: #f9f9ff;
+  border: 1px solid #d5cbff;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.social-login .social-button:hover{
+  background: #f1eff9;
+  border-color: #5f41e4;
+}
+
+.social-login .social-button .social-icon {
+  width: 23px;
+}
+
+.login-container .separator {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.login-container .separator span{
+  background: #fff;
+  z-index: 1;
+  font-size: 1.06rem;
+  font-weight: 500;
+  margin-inline: 0.9rem;
+}
+
+.login-container .separator::before,
+.login-container .separator::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background: #bfb3f2;
+}
+
+.login-form .input-wrapper{
+  /* Establece la posición relativa para que el icono se posicione dentro de este contenedor */
+  position: relative;
+  height: 54px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.login-form .input-wrapper .input-field {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  font-size: 1.06rem;
+  border-radius: 0.31rem;
+  border: 1px solid #bfb3f2;
+  /* Ajusta el padding-left para dejar espacio al icono */
+  padding: 0 1.25rem 0 3.12rem;
+}
+
+.login-form .input-wrapper svg{
+  /* Posiciona el icono de forma absoluta dentro del contenedor */
+  position: absolute;
+  top: 50%;
+  left: 1.25rem;
+  transform: translateY(-50%);
+}
+
+.login-form .input-field:focus {
+  border-color: #5f41e4;
+}
+
+.login-form .input-field:focus + svg {
+  color: #5f41e4;
+}
+
+.login-form .input-field:focus ~ .input-icon {
+  color: #5f41e4;
+}
+
+.login-form .forgot-password-link{
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: #8c8c8c;
+  float: right;
+  margin-bottom: 2rem;
+  text-decoration: none;
+}
+
+.login-form .forgot-password-link:hover{
+  color: #5f41e4;
+}
+
+.login-button{
+  width: 100%;
+  background: #5f41e4;
+  border: none;
+  border-radius: 0.30rem;
+  height: 54px;
+  color: #fff;
+  font-size: 1.06rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.login-button:hover{
+  background: #462cbb;
+}
+
+.signup-text {
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: #8c8c8c;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.signup-text a{
+  color: #5f41e4;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.signup-text a:hover{
+  text-decoration: underline;
+}
