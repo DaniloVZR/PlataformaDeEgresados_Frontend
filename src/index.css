@@ -14,7 +14,7 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: url('C:\Users\juan3\Documents\PlataformaDeEgresados_Frontend\Assets\background.jpg') no-repeat center center/cover;
+  background: url('Assets\background.jpg') no-repeat center center/cover;
 }
 
 #root {
