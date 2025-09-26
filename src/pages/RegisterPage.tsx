@@ -1,7 +1,8 @@
 // src/pages/RegisterPage.tsx
-import { IconMail, IconLock } from '@tabler/icons-react';
+import { IconMail, IconLock, IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import "../styles/FormularioAutenticacion.css";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -28,79 +29,79 @@ export const RegisterPage = () => {
     }
   }
   return (
-    <div className="login-container">
-      <h2 className="form-title">Crear Cuenta</h2>
+    <div className="auth-background">
 
-      {error && (
-        <p style={{ color: 'red', textAlign: 'center', marginBottom: '1rem' }}>
-          {error}
+      <div className="auth-container">
+        <h2 className="form-title">Crear Cuenta</h2>
+
+        {error && <p className="error-message">{error}</p>}
+
+        <form className="auth-form" onSubmit={handleSubmit}>
+          <div className="input-wrapper">
+            <input
+              type="text"
+              name="nombreCompleto"
+              className="input-field"
+              placeholder="Nombre Completo"
+              value={formData.nombreCompleto}
+              onChange={handleChange}
+              required
+            />
+            <IconUser size={30} color="#000" stroke={1.5} />
+          </div>
+
+          <div className="input-wrapper">
+            <input
+              type="email"
+              name="correo"
+              className="input-field"
+              placeholder="Correo Institucional"
+              value={formData.correo}
+              onChange={handleChange}
+              required
+            />
+            <IconMail size={30} color="#000" stroke={1.5} />
+          </div>
+
+          <div className="input-wrapper">
+            <input
+              required
+              type="password"
+              name="contraseña"
+              className="input-field"
+              placeholder="Contraseña"
+              value={formData.contraseña}
+              onChange={handleChange}
+            />
+            <IconLock size={30} color="#000" stroke={1.5} />
+          </div>
+
+          <div className="input-wrapper">
+            <input
+              required
+              type="password"
+              name="confirmarContraseña"
+              className="input-field"
+              placeholder="Confirmar Contraseña"
+              value={formData.confirmarContraseña}
+              onChange={handleChange}
+            />
+            <IconLock size={30} color="#000" stroke={1.5} />
+          </div>
+
+
+          <button type="submit" className="auth-button">
+            Registrarse
+          </button>
+        </form>
+
+        <p className="auth-text">
+          ¿Ya tienes una cuenta?{' '}
+          <a onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}>
+            Iniciar Sesion
+          </a>
         </p>
-      )}
-
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="input-wrapper">
-          <input
-            type="text"
-            name="nombreCompleto"
-            className="input-field"
-            placeholder="Nombre Completo"
-            value={formData.nombreCompleto}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="input-wrapper">
-          <input
-            type="email"
-            name="correo"
-            className="input-field"
-            placeholder="Correo Institucional"
-            value={formData.correo}
-            onChange={handleChange}
-            required
-          />
-          <IconMail size={30} color="#000" stroke={1.5} />
-        </div>
-
-        <div className="input-wrapper">
-          <input
-            required
-            type="password"
-            name="contraseña"
-            className="input-field"
-            placeholder="Contraseña"
-            value={formData.contraseña}
-            onChange={handleChange}
-          />
-          <IconLock size={30} color="#000" stroke={1.5} />
-        </div>
-
-        <div className="input-wrapper">
-          <input
-            required
-            type="password"
-            name="confirmarContraseña"
-            className="input-field"
-            placeholder="Confirmar Contraseña"
-            value={formData.confirmarContraseña}
-            onChange={handleChange}
-          />
-          <IconLock size={30} color="#000" stroke={1.5} />
-        </div>
-        
-
-        <button type="submit" className="login-button">
-          Registrarse
-        </button>
-      </form>
-
-      <p className="signup-text">
-        ¿Ya tienes una cuenta?{' '}
-        <a onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}>
-          Iniciar Sesion
-        </a>
-      </p>
+      </div>
     </div>
   );
 };
