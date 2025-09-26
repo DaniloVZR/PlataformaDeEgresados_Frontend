@@ -1,0 +1,166 @@
+.auth-background {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: url('../Assets/background.jpg') no-repeat center center/cover;
+}
+
+.auth-container {
+  max-width: 410px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 2rem 1.5rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container .form-title {
+  text-align: center;
+  font-size: 1.37rem;
+  font-weight: 600;
+  margin-bottom: 1.87rem;
+}
+
+.auth-container .social-login {
+  display: flex;
+  gap: 1.31rem;
+}
+
+.social-login .social-button {
+  flex-grow: 1;
+  display: flex;
+  width: 100px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.83rem;
+  font-weight: 500;
+  padding: 0.7rem 0;
+  cursor: pointer;
+  border-radius: 0.30rem;
+  background: #f9f9ff;
+  border: 1px solid #d5cbff;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.social-login .social-button:hover {
+  background: #f1eff9;
+  border-color: #5f41e4;
+}
+
+.social-login .social-button .social-icon {
+  width: 23px;
+}
+
+.auth-container .separator {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.auth-container .separator span {
+  background: #fff;
+  z-index: 1;
+  font-size: 1.06rem;
+  font-weight: 500;
+  margin-inline: 0.9rem;
+}
+
+.auth-container .separator::before,
+.auth-container .separator::after {
+  content: '';
+  flex-grow: 1;
+  height: 1px;
+  background: #bfb3f2;
+}
+
+.auth-form .input-wrapper {
+  position: relative;
+  height: 54px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form .input-wrapper .input-field {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  font-size: 1.06rem;
+  border-radius: 0.31rem;
+  border: 1px solid #bfb3f2;
+  padding: 0 1.25rem 0 3.12rem;
+}
+
+.auth-form .input-wrapper svg {
+  position: absolute;
+  top: 50%;
+  left: 1.25rem;
+  transform: translateY(-50%);
+}
+
+.auth-form .input-field:focus {
+  border-color: #5f41e4;
+}
+
+.auth-form .input-field:focus+svg {
+  color: #5f41e4;
+}
+
+.auth-form .input-field:focus~.input-icon {
+  color: #5f41e4;
+}
+
+.auth-form .forgot-password-link {
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: #8c8c8c;
+  float: right;
+  margin-bottom: 2rem;
+  text-decoration: none;
+}
+
+.auth-form .forgot-password-link:hover {
+  color: #5f41e4;
+}
+
+.auth-button {
+  width: 100%;
+  background: #5f41e4;
+  border: none;
+  border-radius: 0.30rem;
+  height: 54px;
+  color: #fff;
+  font-size: 1.06rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.auth-button:hover {
+  background: #462cbb;
+}
+
+.auth-text {
+  font-size: 0.87rem;
+  font-weight: 500;
+  color: #8c8c8c;
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.auth-text a {
+  color: #5f41e4;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-text a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 1rem;
+}
