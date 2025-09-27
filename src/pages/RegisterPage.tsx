@@ -2,7 +2,7 @@
 import { IconMail, IconLock, IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "../styles/FormularioAutenticacion.css";
+import "../styles/pages/FormularioAutenticacion.css";
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ export const RegisterPage = () => {
               onChange={handleChange}
               required
             />
-            <IconUser size={30} color="#000" stroke={1.5} />
+            <IconUser size={30} color="#bfb3f2" stroke={1.5} />
           </div>
 
           <div className="input-wrapper">
@@ -60,7 +60,7 @@ export const RegisterPage = () => {
               onChange={handleChange}
               required
             />
-            <IconMail size={30} color="#000" stroke={1.5} />
+            <IconMail size={30} color="#bfb3f2" stroke={1.5} />
           </div>
 
           <div className="input-wrapper">
@@ -73,7 +73,7 @@ export const RegisterPage = () => {
               value={formData.contraseña}
               onChange={handleChange}
             />
-            <IconLock size={30} color="#000" stroke={1.5} />
+            <IconLock size={30} color="#bfb3f2" stroke={1.5} />
           </div>
 
           <div className="input-wrapper">
@@ -86,7 +86,7 @@ export const RegisterPage = () => {
               value={formData.confirmarContraseña}
               onChange={handleChange}
             />
-            <IconLock size={30} color="#000" stroke={1.5} />
+            <IconLock size={30} color="#bfb3f2" stroke={1.5} />
           </div>
 
 
@@ -97,7 +97,7 @@ export const RegisterPage = () => {
 
         <p className="auth-text">
           ¿Ya tienes una cuenta?{' '}
-          <a onClick={() => navigate('/login')} style={{ cursor: 'pointer' }}>
+          <a onClick={() => navigate('/iniciar-sesion')} style={{ cursor: 'pointer' }}>
             Iniciar Sesion
           </a>
         </p>

@@ -1,4 +1,4 @@
-import "../Styles/Landing.css";
+import "../Styles/pages/Landing.css";
 
 export const LandingPage = () => {
   return (
@@ -17,8 +17,8 @@ export const LandingPage = () => {
         <div className="hero-content">
           <h2 className="hero-title">Conecta con tu comunidad universitaria</h2>
           <p className="hero-subtitle">
-            Bienvenido a la red social exclusiva para egresados de nuestra universidad. 
-            Comparte experiencias, encuentra oportunidades de trabajo y mantente en contacto 
+            Bienvenido a la red social exclusiva para egresados de nuestra universidad.
+            Comparte experiencias, encuentra oportunidades de trabajo y mantente en contacto
             con tus compañeros.
           </p>
           <button className="hero-button">Únete Ahora</button>
@@ -29,8 +29,8 @@ export const LandingPage = () => {
       <section className="about-section">
         <h3 className="section-title">Sobre Nosotros</h3>
         <p className="section-text">
-          Nuestra plataforma fue creada con el objetivo de fortalecer la conexión entre 
-          los egresados de la universidad. Aquí podrás compartir tus logros, mantener el 
+          Nuestra plataforma fue creada con el objetivo de fortalecer la conexión entre
+          los egresados de la universidad. Aquí podrás compartir tus logros, mantener el
           contacto con tu red profesional y acceder a recursos exclusivos para tu desarrollo.
         </p>
       </section>
