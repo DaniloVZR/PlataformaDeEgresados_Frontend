@@ -3,7 +3,9 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: url('../Assets/background.jpg') no-repeat center center/cover;
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('../../Assets/background.jpg') no-repeat center center/cover;
 }
 
 .auth-container {
@@ -163,4 +165,67 @@
   color: red;
   text-align: center;
   margin-bottom: 1rem;
+}
+
+.success-message {
+  color: green;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+/* Estilos para los botones de mostrar/ocultar contraseña */
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+/* Corrección para el botón de mostrar/ocultar contraseña */
+.show-password-btn {
+  position: absolute;
+  right: 2.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  /* Solo una propiedad transform, centrado verticalmente */
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #bfb3f2;
+  z-index: 2;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  /* Añadido para mejor alineación del icono */
+  align-items: center;
+  /* Centra el icono dentro del botón */
+  justify-content: center;
+  /* Centra el icono horizontalmente */
+}
+
+.show-password-btn:hover {
+  color: #5f41e4;
+  background-color: #f9f9ff;
+}
+
+.input-field:focus~.show-password-btn {
+  color: #5f41e4;
+}
+
+/* Asegurar que el input tenga suficiente padding para los iconos */
+.input-field {
+  padding-left: 3.5rem !important;
+  padding-right: 3rem !important;
 }

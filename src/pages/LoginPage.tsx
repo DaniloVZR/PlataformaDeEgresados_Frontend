@@ -3,7 +3,7 @@ import { IconMail } from '@tabler/icons-react';
 import { IconLock } from '@tabler/icons-react';
 import { IconBrandApple } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import "../styles/FormularioAutenticacion.css";
+import "../styles/pages/FormularioAutenticacion.css";
 
 export const LoginPage = () => {
   const navigate = useNavigate();
@@ -28,14 +28,14 @@ export const LoginPage = () => {
         <form action="#" className="auth-form">
           <div className="input-wrapper">
             <input required type="email" className="input-field" placeholder="Email address" />
-            <IconMail size={30} color="#000" stroke={1.5} />
+            <IconMail size={30} color="#bfb3f2" stroke={1.5} />
           </div>
         </form>
 
         <form action="#" className="auth-form">
           <div className="input-wrapper">
             <input required type="password" className="input-field" placeholder="Password" />
-            <IconLock size={30} color="#000" stroke={1.5} />
+            <IconLock size={30} color="#bfb3f2" stroke={1.5} />
           </div>
           <a href="#forgot-password" className="forgot-password-link">Forgot password?</a>
           <button className="auth-button">Log in</button>
