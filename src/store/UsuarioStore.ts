@@ -48,7 +48,6 @@ export const useUsuarioStore = create<usuarioStore>()(devtools((set) => ({
 
     try {
       const { valido } = await comprobarToken(token);
-      console.log(valido);
       set(() => ({
         loading: false,
         tokenValido: valido
@@ -74,7 +73,7 @@ export const useUsuarioStore = create<usuarioStore>()(devtools((set) => ({
         set(() => ({
           mensaje: '',
         }))
-      }, 5000);
+      }, 10000);
 
       return mensaje;
     } catch (error) {

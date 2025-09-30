@@ -229,3 +229,14 @@
   padding-left: 3.5rem !important;
   padding-right: 3rem !important;
 }
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.button-container>button {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}

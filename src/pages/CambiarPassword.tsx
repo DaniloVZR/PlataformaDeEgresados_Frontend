@@ -43,6 +43,11 @@ export const CambiarPassword = () => {
       return;
     }
 
+    if (!formData.contraseña.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]/)) {
+      setError('La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial');
+      return;
+    }
+
     try {
       await nuevoPassword(params.token!, formData.contraseña);
       setPasswordChanged(true);
@@ -65,10 +70,12 @@ export const CambiarPassword = () => {
             Tu contraseña ha sido actualizada correctamente.
             Ya puedes iniciar sesión con tu nueva contraseña.
           </p>
-          <VolverLanding
-            ruta="/iniciar-sesion"
-            texto="Ir a Iniciar Sesión"
-          />
+          <div className="button-container">
+            <VolverLanding
+              ruta="/iniciar-sesion"
+              texto="Ir a Iniciar Sesión"
+            />
+          </div>
         </div>
       </div>
     );
