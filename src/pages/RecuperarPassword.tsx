@@ -8,7 +8,6 @@ import "../styles/pages/FormularioAutenticacion.css";
 export const RecuperarPassword = () => {
   const { enviarInstrucciones, mensaje, loading } = useUsuarioStore();
 
-  console.log(mensaje);
   const [formData, setFormData] = useState({
     correo: '',
   });
@@ -22,12 +21,19 @@ export const RecuperarPassword = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (formData.correo.trim() === '') {
+      setError('Debe ingresar un correo');
+      return;
+    }
+
     if (!formData.correo.endsWith('@pascualbravo.edu.co')) {
       setError('El correo debe terminar en @pascualbravo.edu.co');
       return;
     }
 
     enviarInstrucciones(formData.correo)
+
+    setError("");
   }
 
   return (
@@ -57,7 +63,6 @@ export const RecuperarPassword = () => {
               placeholder="Correo Institucional"
               value={formData.correo}
               onChange={handleChange}
-              required
             />
             <IconMail size={30} color="#bfb3f2" stroke={1.5} />
           </div>
