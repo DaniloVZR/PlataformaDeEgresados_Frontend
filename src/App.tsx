@@ -6,6 +6,7 @@ import { RecuperarPassword } from "./pages/RecuperarPassword"
 import { CambiarPassword } from "./pages/CambiarPassword"
 import { ConfirmarCuenta } from "./pages/ConfirmarCuenta"
 import { Home } from "./pages/Home"
+import { PrivateRoute } from "./components/PrivateRoute"
 
 function App() {
 
@@ -17,7 +18,17 @@ function App() {
       <Route path="/recuperar-contraseña" element={<RecuperarPassword />} />
       <Route path="/confirmar-cuenta/:token" element={<ConfirmarCuenta />} />
       <Route path="/cambiar-contraseña/:token" element={<CambiarPassword />} />
-      <Route path="/home" element={<Home />} />
+      <Route path="/confirmar-cuenta/:token" element={<ConfirmarCuenta />} />
+
+      // Rutas privadas
+      <Route
+        path="/home"
+        element={
+          <PrivateRoute>
+            <Home />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   )
 }

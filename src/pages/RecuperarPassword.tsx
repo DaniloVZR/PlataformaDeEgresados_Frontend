@@ -1,18 +1,22 @@
 import { IconMail } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VolverLanding } from "../components/VolverLanding";
 import { useUsuarioStore } from "../store/UsuarioStore";
 import { Loader } from "../components/Loader";
 import "../styles/pages/FormularioAutenticacion.css";
 
 export const RecuperarPassword = () => {
-  const { enviarInstrucciones, mensaje, loading } = useUsuarioStore();
+  const { enviarInstrucciones, mensaje, loading, limpiarMensaje } = useUsuarioStore();
 
   const [formData, setFormData] = useState({
     correo: '',
   });
 
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    limpiarMensaje();
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));

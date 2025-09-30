@@ -128,7 +128,7 @@
 
 .auth-button {
   width: 100%;
-  background: #5f41e4;
+  background: #4CAF50;
   border: none;
   border-radius: 0.30rem;
   height: 54px;
@@ -140,7 +140,7 @@
 }
 
 .auth-button:hover {
-  background: #462cbb;
+  background: #348236;
 }
 
 .auth-text {
