@@ -3,6 +3,7 @@ import { IconMail, IconLock, IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../styles/pages/FormularioAutenticacion.css";
+import { VolverLanding } from '../components/VolverLanding';
 
 export const RegisterPage = () => {
   const navigate = useNavigate();
@@ -28,10 +29,15 @@ export const RegisterPage = () => {
       return;
     }
   }
+
   return (
     <div className="auth-background">
 
       <div className="auth-container">
+        <VolverLanding
+          ruta="/"
+          texto="Volver"
+        />
         <h2 className="form-title">Crear Cuenta</h2>
 
         {error && <p className="error-message">{error}</p>}
@@ -98,7 +104,7 @@ export const RegisterPage = () => {
         <p className="auth-text">
           ¿Ya tienes una cuenta?{' '}
           <a onClick={() => navigate('/iniciar-sesion')} style={{ cursor: 'pointer' }}>
-            Iniciar Sesion
+            Inicia Sesión
           </a>
         </p>
       </div>

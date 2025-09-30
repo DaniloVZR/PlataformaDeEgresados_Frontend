@@ -1,14 +1,22 @@
+import { Link } from "react-router";
 import "../Styles/pages/Landing.css";
 
 export const LandingPage = () => {
+
   return (
     <div className="landing-container">
       {/* HEADER */}
       <header className="landing-header">
         <h1 className="logo">Red de Egresados</h1>
         <nav className="nav-buttons">
-          <button className="nav-button">Iniciar Sesión</button>
-          <button className="nav-button primary">Registrarse</button>
+          <Link to="/iniciar-sesion">
+            <button className="nav-button">
+              Iniciar Sesión
+            </button>
+          </Link>
+          <Link to="/registrarse">
+            <button className="nav-button primary">Registrarse</button>
+          </Link>
         </nav>
       </header>
 

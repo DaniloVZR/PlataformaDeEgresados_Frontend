@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { VolverLanding } from "../components/VolverLanding";
 import { useUsuarioStore } from "../store/UsuarioStore";
 import { Loader } from "../components/Loader";
-import "../styles/pages/FormularioAutenticacion.css";
 import { useParams } from "react-router";
+import "../styles/pages/FormularioAutenticacion.css";
 
 export const CambiarPassword = () => {
 
@@ -19,7 +19,7 @@ export const CambiarPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [passwordChanged, setPasswordChanged] = useState(false); // Nuevo estado
+  const [passwordChanged, setPasswordChanged] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));

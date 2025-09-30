@@ -5,6 +5,7 @@ import { RegisterPage } from "./pages/RegisterPage"
 import { RecuperarPassword } from "./pages/RecuperarPassword"
 import { CambiarPassword } from "./pages/CambiarPassword"
 import { ConfirmarCuenta } from "./pages/ConfirmarCuenta"
+import { Home } from "./pages/Home"
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Route path="/recuperar-contraseña" element={<RecuperarPassword />} />
       <Route path="/confirmar-cuenta/:token" element={<ConfirmarCuenta />} />
       <Route path="/cambiar-contraseña/:token" element={<CambiarPassword />} />
+      <Route path="/home" element={<Home />} />
     </Routes>
   )
 }
