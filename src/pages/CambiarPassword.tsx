@@ -60,7 +60,6 @@ export const CambiarPassword = () => {
     comprobarToken(params.token!)
   }, [params.token]);
 
-  // Si el cambio fue exitoso, mostrar mensaje de éxito
   if (passwordChanged) {
     return (
       <div className="auth-background">

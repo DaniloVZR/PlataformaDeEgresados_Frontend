@@ -5,8 +5,6 @@ export const Home = () => {
 
   const { cerrarSesion, usuario } = useUsuarioStore();
 
-  console.log(usuario);
-
   const navigate = useNavigate();
 
   const handleLogout = () => {

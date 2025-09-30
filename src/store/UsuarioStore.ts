@@ -1,18 +1,21 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 import type { TUsuario } from "../types";
-import { recuperarPassword, comprobarToken, nuevoPassword, iniciarSesion } from "../services/usuario";
+import { recuperarPassword, comprobarToken, nuevoPassword, iniciarSesion, registrarse, confimarUsuario } from "../services/usuario";
 
 type usuarioStore = {
   usuario: TUsuario | null;
   mensaje: string;
   token: string | null;
   loading: boolean;
-  tokenValido: boolean;
+  tokenValido: boolean | null;
   data: any;
   isAuthenticated: boolean;
+  confirmado: boolean | null;
   iniciarSesion: (correo: string, password: string) => Promise<boolean>;
   cerrarSesion: () => void;
+  registrarse: (nombre: string, correo: string, password: string) => Promise<void>;
+  confimarUsuario: (token: string) => Promise<void>;
   enviarInstrucciones: (correo: string) => Promise<void>;
   comprobarToken: (token: string) => Promise<void>;
   nuevoPassword: (token: string, password: string) => Promise<string>;
@@ -26,11 +29,11 @@ export const useUsuarioStore = create<usuarioStore>()(
         usuario: null,
         token: null,
         data: {},
-        tokenValido: false,
+        tokenValido: null,
         mensaje: '',
         loading: false,
         isAuthenticated: false,
-
+        confirmado: null,
 
         iniciarSesion: async (correo: string, password: string) => {
           set(() => (({
@@ -77,6 +80,40 @@ export const useUsuarioStore = create<usuarioStore>()(
             isAuthenticated: false,
             tokenValido: false,
           });
+        },
+
+        registrarse: async (nombre: string, correo: string, password: string) => {
+          set(() => (({
+            loading: true,
+          })))
+
+          try {
+            const data = await registrarse(nombre, correo, password);
+            set(() => ({
+              loading: false,
+              mensaje: data?.msg,
+            }))
+          } catch (error) {
+            set(() => ({ loading: false }));
+            throw error;
+          }
+        },
+
+        confimarUsuario: async (token: string) => {
+          set(() => (({ loading: true })))
+
+          try {
+            const { msg } = await confimarUsuario(token);
+            set(() => ({
+              loading: false,
+              mensaje: msg,
+              confirmado: true,
+            }))
+
+          } catch (error) {
+            set(() => ({ loading: false }));
+            throw error;
+          }
         },
 
         enviarInstrucciones: async (correo: string) => {
