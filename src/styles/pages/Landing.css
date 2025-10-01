@@ -17,6 +17,21 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
+.logo-about {
+  max-width: 250px; 
+  height: auto;
+  margin: 0 auto 40px;
+  display: block;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+  border-radius: 10px; 
+  transition: transform 0.3s ease;
+}
+
+.logo-about:hover {
+    transform: scale(1.05); 
+}
+
+
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
@@ -25,6 +40,7 @@
 
 .nav-buttons {
   display: flex;
+  justify-content: end;
   gap: 15px;
 }
 
