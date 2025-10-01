@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import "../Styles/pages/Landing.css";
 import { TypeAnimation } from 'react-type-animation';
-
+import LogoPascual from '../Assets/LogoPascual.jpg';
 export const LandingPage = () => {
 
   return (
@@ -11,14 +11,14 @@ export const LandingPage = () => {
           <h1 className="logo text-3xl font-bold">
             <TypeAnimation
               sequence={[
-                "Red de Egresados", // escribe
-                2000,               // espera 2s
-                "",                 // borra
-                1000,               // espera 1s
+                "Red de Egresados",
+                2000,               
+                "",                
+                1000,              
               ]}
-              speed={80}   // velocidad de escritura
-              deletionSpeed={60} // velocidad al borrar
-              repeat={Infinity} // infinito
+              speed={80}   
+              deletionSpeed={60} 
+              repeat={Infinity}
               wrapper="span"
             />
           </h1>
@@ -36,22 +36,37 @@ export const LandingPage = () => {
         </nav>
       </header>
 
-      {/* HERO */}
-      <section className="hero-section">
-        <div className="hero-content">
-          <h2 className="hero-title">Conecta con tu comunidad universitaria</h2>
-          <p className="hero-subtitle">
-            Bienvenido a la red social exclusiva para egresados de nuestra universidad.
-            Comparte experiencias, encuentra oportunidades de trabajo y mantente en contacto
-            con tus compañeros.
-          </p>
-          <button className="hero-button">Únete Ahora</button>
-        </div>
-      </section>
-
+{/* HERO */}
+<section className="hero-section">
+  <div className="hero-content">
+    <h2 className="hero-title">Conecta con tu comunidad universitaria</h2>
+    <p className="hero-subtitle">
+      <TypeAnimation
+        sequence={[
+          "Bienvenido a la red social exclusiva para egresados de nuestra universidad.",
+          "Comparte experiencias, encuentra oportunidades de trabajo y mantente en contacto",
+          "con tus compañeros.",
+          3000,
+          "",
+          1000,
+        ]}
+        speed={5}
+        deletionSpeed={20}
+        repeat={Infinity}
+        wrapper="span"
+      />
+    </p>
+    <button className="hero-button">Únete Ahora</button> {/* Agregué este botón de la imagen original */}
+  </div>
+</section>
       {/* SOBRE NOSOTROS */}
       <section className="about-section">
         <h3 className="section-title">Sobre Nosotros</h3>
+        <img 
+         src={LogoPascual} // <--- ¡Usa la variable importada aquí!
+         alt="Logo Pascual"
+         className="logo-about" // Puedes añadir una clase si quieres estilizarla
+        />
         <p className="section-text">
           Nuestra plataforma fue creada con el objetivo de fortalecer la conexión entre
           los egresados de la universidad. Aquí podrás compartir tus logros, mantener el
