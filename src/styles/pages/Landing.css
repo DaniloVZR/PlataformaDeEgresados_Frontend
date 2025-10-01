@@ -25,6 +25,7 @@
 
 .nav-buttons {
   display: flex;
+  justify-content: end;
   gap: 15px;
 }
 

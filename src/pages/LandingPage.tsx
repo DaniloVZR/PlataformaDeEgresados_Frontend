@@ -1,13 +1,29 @@
 import { Link } from "react-router";
 import "../Styles/pages/Landing.css";
+import { TypeAnimation } from 'react-type-animation';
 
 export const LandingPage = () => {
 
   return (
-    <div className="landing-container">
-      {/* HEADER */}
+    <div>
       <header className="landing-header">
-        <h1 className="logo">Red de Egresados</h1>
+        <div className="p-10">
+          <h1 className="logo text-3xl font-bold">
+            <TypeAnimation
+              sequence={[
+                "Red de Egresados", // escribe
+                2000,               // espera 2s
+                "",                 // borra
+                1000,               // espera 1s
+              ]}
+              speed={80}   // velocidad de escritura
+              deletionSpeed={60} // velocidad al borrar
+              repeat={Infinity} // infinito
+              wrapper="span"
+            />
+          </h1>
+        </div>
+
         <nav className="nav-buttons">
           <Link to="/iniciar-sesion">
             <button className="nav-button">
