@@ -122,10 +122,10 @@ export const useUsuarioStore = create<usuarioStore>()(
           })))
 
           try {
-            const mensaje = await recuperarPassword(correo);
+            const data = await recuperarPassword(correo);
 
             set(() => ({
-              mensaje,
+              data,
               loading: false,
             }))
 
