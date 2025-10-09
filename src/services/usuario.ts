@@ -63,7 +63,7 @@ export async function recuperarPassword(correo: string) {
   try {
     const url = `${import.meta.env.VITE_API_URL}/usuario/recuperar-password`;
     const { data } = await axios.post(url, { correo });
-    return data.msg;
+    return data;
   } catch (error: any) {
     if (axios.isAxiosError(error) && error.response) {
       return error.response.data.msg;

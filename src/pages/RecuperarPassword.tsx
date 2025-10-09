@@ -6,7 +6,7 @@ import { Loader } from "../components/Loader";
 import "../styles/pages/FormularioAutenticacion.css";
 
 export const RecuperarPassword = () => {
-  const { enviarInstrucciones, mensaje, loading, limpiarMensaje } = useUsuarioStore();
+  const { enviarInstrucciones, mensaje, loading, limpiarMensaje, data } = useUsuarioStore();
 
   const [formData, setFormData] = useState({
     correo: '',
@@ -36,6 +36,11 @@ export const RecuperarPassword = () => {
     }
 
     enviarInstrucciones(formData.correo)
+
+    if (data && !data.success) {
+      setError(data.msg || 'Error al enviar las instrucciones');
+      return;
+    }
 
     setError("");
   }
