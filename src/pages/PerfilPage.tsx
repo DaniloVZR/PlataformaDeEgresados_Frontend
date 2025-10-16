@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import "../Styles/pages/Profile.css";
+import { useEffect, useState } from "react";
+import "../Styles/pages/Perfil.css";
 import defaultAvatar from "../Assets/defaultAvatar.jpg";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const ProfilePage = () => {
   const [userData, setUserData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulación de carga de datos del usuario
     try {
       const data = {
         nombre: "Harold Quiroz",
@@ -28,13 +28,8 @@ export const ProfilePage = () => {
     }
   }, []);
 
-  if (error) {
-    return <div className="error-message">{error}</div>;
-  }
-
-  if (!userData) {
-    return <div className="loading-message">Cargando perfil...</div>;
-  }
+  if (error) return <div className="profile-container"><p>{error}</p></div>;
+  if (!userData) return <div className="profile-container"><p>Cargando perfil...</p></div>;
 
   return (
     <div className="profile-container">
@@ -58,11 +53,21 @@ export const ProfilePage = () => {
           <a href={userData.redes.github} target="_blank" rel="noopener noreferrer">GitHub</a>
         </div>
 
-        <Link to="/editar-perfil">
-          <button className="edit-button">Editar Perfil</button>
-        </Link>
+        <div className="profile-buttons">
+          <button
+            className="btn btn-outline"
+            onClick={() => navigate("/editar-perfil")}
+          >
+            Editar perfil
+          </button>
+          <button
+            className="btn btn-solid"
+            onClick={() => navigate("/home")}
+          >
+            Volver al inicio
+          </button>
+        </div>
       </div>
     </div>
   );
 };
-

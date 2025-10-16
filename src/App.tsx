@@ -6,6 +6,7 @@ import { RecuperarPassword } from "./pages/RecuperarPassword"
 import { CambiarPassword } from "./pages/CambiarPassword"
 import { ConfirmarCuenta } from "./pages/ConfirmarCuenta"
 import { Home } from "./pages/Home"
+import { ProfilePage } from "./pages/PerfilPage";
 import { PrivateRoute } from "./components/PrivateRoute"
 
 function App() {
@@ -26,6 +27,15 @@ function App() {
         element={
           <PrivateRoute>
             <Home />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/editar-perfil"
+        element={
+          <PrivateRoute>
+            <ProfilePage />
           </PrivateRoute>
         }
       />
