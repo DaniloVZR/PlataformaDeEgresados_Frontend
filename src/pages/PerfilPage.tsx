@@ -1,4 +1,4 @@
-import PerfilEgresado from "../components/perfil";
+import PerfilEgresado from "../components/Perfil";
 
 export default function PerfilPage() {
   return (

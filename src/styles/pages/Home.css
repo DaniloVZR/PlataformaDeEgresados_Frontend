@@ -1,0 +1,180 @@
+:root {
+  --morado: #7a3e9d;
+  --morado-dark: #5b2d79;
+  --morado-soft: #f5ebff;
+  --blanco: #ffffff;
+  --fondo: #f5f2f8;
+  --texto: #333;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: var(--fondo);
+  margin: 0;
+  padding: 0;
+  color: var(--texto);
+}
+
+/* === CONTENEDOR PRINCIPAL === */
+.home-container {
+  display: grid;
+  grid-template-columns: 320px 1fr 300px;
+  gap: 1.5rem;
+  padding: 2rem;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* === TARJETA BASE === */
+.home-card {
+  background: var(--blanco);
+  border-radius: 14px;
+  padding: 1.4rem;
+  box-shadow: 0 6px 18px rgba(122, 62, 157, 0.12);
+  transition: transform 0.18s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+.home-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px rgba(122, 62, 157, 0.16);
+}
+
+/* === PERFIL IZQUIERDO === */
+.home-sidebar-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.home-perfil {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.home-profile-img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--morado);
+  margin-bottom: 0.8rem;
+}
+
+.home-perfil h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  color: #2a1033;
+}
+
+.home-profile-role {
+  color: var(--morado);
+  margin: 0.5rem 0 1rem 0;
+}
+
+/* === BOTONES PERFIL ABAJO === */
+.home-profile-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem; /* más cerca entre ellos */
+  width: 100%;
+  align-items: center;
+  margin-top: auto;
+}
+
+/* === BOTONES GENERALES === */
+.home-btn {
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 85%;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.12s ease;
+  border: 2px solid transparent;
+}
+
+/* Outline style */
+.home-btn-outline {
+  background: transparent;
+  color: var(--morado);
+  border-color: var(--morado);
+}
+.home-btn-outline:hover {
+  background: var(--morado);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Solid style */
+.home-btn-solid {
+  background: var(--morado);
+  color: white;
+  border: 2px solid var(--morado);
+}
+.home-btn-solid:hover {
+  background: var(--morado-dark);
+  transform: translateY(-2px);
+}
+
+/* === FEED CENTRAL === */
+.home-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.home-feed-title {
+  width: 100%;
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--morado);
+  background: var(--morado-soft);
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(122, 62, 157, 0.06);
+  margin: 0 0 0.6rem 0;
+}
+
+.home-feed-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.home-feed-empty {
+  width: 95%;
+  background: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 0 6px 14px rgba(122, 62, 157, 0.06);
+  text-align: center;
+  color: #444;
+}
+
+/* === DERECHA === */
+.home-sidebar-right ul {
+  padding-left: 1rem;
+}
+.home-sidebar-right a {
+  color: var(--morado);
+  text-decoration: none;
+}
+.home-sidebar-right a:hover {
+  text-decoration: underline;
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 980px) {
+  .home-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  .home-card {
+    padding: 1rem;
+  }
+  .home-profile-buttons .home-btn {
+    width: 100%;
+  }
+}

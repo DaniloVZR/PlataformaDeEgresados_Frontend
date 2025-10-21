@@ -1,0 +1,135 @@
+:root {
+  --morado: #7a3e9d;
+  --morado-dark: #5b2d79;
+  --morado-soft: #f5ebff;
+  --blanco: #ffffff;
+  --fondo: #f5f2f8;
+  --texto: #333;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 2rem;
+  background: var(--fondo);
+}
+
+.profile-card {
+  background: var(--blanco);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 6px 18px rgba(122, 62, 157, 0.12);
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.18s ease, box-shadow 0.2s ease;
+}
+
+.profile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px rgba(122, 62, 157, 0.16);
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--morado);
+  margin-bottom: 1rem;
+}
+
+.profile-name {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+  color: #2a1033;
+}
+
+.profile-description {
+  font-size: 0.95rem;
+  color: var(--texto);
+  margin-bottom: 1rem;
+}
+
+.profile-info {
+  width: 100%;
+  text-align: left;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  color: var(--texto);
+}
+
+.profile-info p strong {
+  color: var(--morado);
+}
+
+.profile-socials {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-socials a {
+  color: var(--morado);
+  text-decoration: none;
+}
+
+.profile-socials a:hover {
+  text-decoration: underline;
+}
+
+.profile-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+/* Botones estilo Home */
+.btn {
+  font-weight: 600;
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.12s ease;
+  border: 2px solid transparent;
+}
+
+/* Outline style */
+.btn-outline {
+  background: transparent;
+  color: var(--morado);
+  border-color: var(--morado);
+}
+
+.btn-outline:hover {
+  background: var(--morado);
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Solid style */
+.btn-solid {
+  background: var(--morado);
+  color: white;
+  border: 2px solid var(--morado);
+}
+
+.btn-solid:hover {
+  background: var(--morado-dark);
+  transform: translateY(-2px);
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .profile-buttons {
+    flex-direction: column;
+  }
+}
