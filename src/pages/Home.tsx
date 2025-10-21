@@ -4,7 +4,9 @@ import defaultAvatar from '../Assets/defaultAvatar.jpg';
 import "../Styles/pages/Home.css";
 
 export const Home = () => {
+
   const { cerrarSesion, usuario } = useUsuarioStore();
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
