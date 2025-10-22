@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "../styles/perfil.css";
+import "../styles/pages/Perfil.css";
 
 export default function HeaderPerfil() {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { obtenerEgresado, actualizarEgresado, actualizarFoto } from "../services/perfil";
-import "../styles/perfil.css"; // Importamos los estilos coherentes con la landing
+import "../styles/pages/Perfil.css"; // Importamos los estilos coherentes con la landing
 
 export default function PerfilEgresado() {
   const [egresado, setEgresado] = useState<any>({});
