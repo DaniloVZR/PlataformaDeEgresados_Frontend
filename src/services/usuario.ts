@@ -4,13 +4,32 @@ export async function iniciarSesion(correo: string, password: string) {
   try {
     const url = `${import.meta.env.VITE_API_URL}/usuario/autenticar`;
     const { data } = await axios.post(url, { correo, password });
-    return data;
+
+    if (data.success && data.token) {
+      // Guardar el token en localStorage
+      localStorage.setItem("token", data.token);
+
+      if (data.usuario) {
+        localStorage.setItem(
+          "usuario-storage",
+          JSON.stringify({ state: { usuario: data.usuario } })
+        );
+      }
+      return {
+        success: true,
+        msg: data.msg,
+        token: data.token,
+        usuario: data.usuario,
+      };
+    }
+
+    return { success: false, msg: data.msg || "Error al iniciar sesión" };
   } catch (error: any) {
     if (axios.isAxiosError(error) && error.response) {
       return {
         success: false,
-        msg: error.response.data.msg || 'Error al iniciar sesión',
-      }
+        msg: error.response.data.msg || "Error al iniciar sesión",
+      };
     }
     throw error;
   }
@@ -87,6 +106,14 @@ export async function comprobarToken(token: string) {
       valido: false
     }
   }
+}
+
+export function getToken() {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.warn("No se encontró el token en localStorage.");
+  }
+  return token;
 }
 
 export async function nuevoPassword(token: string, password: string) {

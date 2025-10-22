@@ -4,6 +4,7 @@ import type { TUsuario } from "../types";
 import { recuperarPassword, comprobarToken, nuevoPassword, iniciarSesion, registrarse, confimarUsuario } from "../services/usuario";
 
 type usuarioStore = {
+  egresado: any;
   usuario: TUsuario | null;
   mensaje: string;
   token: string | null;
@@ -26,6 +27,7 @@ export const useUsuarioStore = create<usuarioStore>()(
   devtools(
     persist(
       (set) => ({
+        egresado: null,
         usuario: null,
         token: null,
         data: {},
@@ -183,6 +185,7 @@ export const useUsuarioStore = create<usuarioStore>()(
         limpiarMensaje: () => {
           set({ mensaje: '' })
         },
+        
       }), {
       name: "usuario-storage",
       partialize: (state) => ({

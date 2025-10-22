@@ -1,12 +1,12 @@
-const API_URL = "http://localhost:5000/api/egresado";
+import { getToken } from "./usuario";
 
-function getToken() {
-  return localStorage.getItem("token");
-}
+const API_URL = `${import.meta.env.VITE_API_URL}/egresado`;
 
-export async function obtenerEgresado() {
+export async function obtenerPerfil() {
   const res = await fetch(API_URL, {
-    headers: { Authorization: `Bearer ${getToken()}` },
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
   });
   return await res.json();
 }
@@ -33,4 +33,3 @@ export async function actualizarFoto(formData: FormData) {
   });
   return await res.json();
 }
-console.log()

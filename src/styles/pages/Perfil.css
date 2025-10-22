@@ -1,181 +1,355 @@
-/* ======== CONTENEDOR GENERAL ======== */
-.perfil-page-container {
+/* ========== PERFIL GENERAL ========== */
+.perfil-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(135deg, #ede9fe, #f3e8ff);
   font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f5f3ff, #faf5ff);
   color: #333;
 }
 
-/* ======== HEADER ======== */
+/* ========== HEADER ========== */
 .perfil-header {
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px 40px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 20px 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.perfil-header-content {
-  width: 100%;
-  max-width: 1100px;
+/* Logo en el header */
+.header-logo {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 15px;
 }
 
-.perfil-logo {
-  height: 60px;
+.header-logo .logo {
+  height: 50px;
+  width: 50px;
+  object-fit: contain;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.perfil-logo:hover {
-  transform: scale(1.05);
+.perfil-header h1 {
+  font-size: 1.6rem;
+  color: #6b21a8;
+  font-weight: bold;
+  margin: 0;
 }
 
-.perfil-nav {
+.perfil-header nav {
   display: flex;
   gap: 15px;
 }
 
-.perfil-nav-btn {
-  padding: 10px 20px;
-  border: 2px solid #6b21a8;
+.perfil-header button {
   background: transparent;
+  border: 2px solid #6b21a8;
   color: #6b21a8;
+  padding: 8px 20px;
   border-radius: 6px;
-  font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
+  font-weight: 500;
 }
 
-.perfil-nav-btn:hover {
+.perfil-header button:hover {
   background: #6b21a8;
   color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(107, 33, 168, 0.3);
 }
 
-.perfil-nav-btn.logout {
-  background: #6b21a8;
-  color: #fff;
+/* ====== MENSAJE DE BIENVENIDA ====== */
+.perfil-bienvenida {
+  text-align: center;
+  background: #fff;
+  padding: 30px 20px;
+  margin: 20px auto 0;
+  border-radius: 10px;
+  width: 80%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.8s ease;
 }
 
-/* ======== PERFIL (tarjeta) ======== */
-.perfil-main {
-  flex: 1;
+.perfil-bienvenida h2 {
+  color: #4c1d95;
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.perfil-bienvenida span {
+  color: #6b21a8;
+  font-weight: bold;
+}
+
+.perfil-bienvenida p {
+  color: #666;
+  font-size: 1rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== CONTENIDO DEL PERFIL ========== */
+.perfil-content {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 40px;
   padding: 60px 20px;
 }
 
-.perfil-card {
+/* ===== FOTO DE PERFIL ===== */
+.foto-section {
   background: #fff;
+  padding: 25px;
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  padding: 40px 30px;
-  width: 100%;
-  max-width: 420px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 320px;
+}
+
+.foto-perfil {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #a855f7;
+  margin-bottom: 15px;
   transition: transform 0.3s ease;
 }
 
-.perfil-card:hover {
-  transform: translateY(-5px);
+.foto-perfil:hover {
+  transform: scale(1.05);
 }
 
-.perfil-foto {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  border: 4px solid #6b21a8;
-  object-fit: cover;
-  margin-bottom: 15px;
+/* Ocultar input original de archivo */
+#file-upload {
+  display: none;
 }
 
-.perfil-input-foto {
-  font-size: 0.9rem;
-  margin-bottom: 10px;
-  color: #6b21a8;
+/* Botón personalizado para subir archivo */
+.custom-file-upload {
+  display: inline-block;
+  padding: 10px 25px;
+  background: #6b21a8;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  margin-top: 10px;
 }
 
-.perfil-nombre {
+.custom-file-upload:hover {
+  background: #4c1d95;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(107, 33, 168, 0.3);
+}
+
+/* ===== INFO DEL PERFIL ===== */
+.info-section {
+  background: #fff;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 450px;
+}
+
+.info-section h2 {
   font-size: 1.8rem;
-  font-weight: bold;
   color: #4c1d95;
   margin-bottom: 10px;
 }
 
-.perfil-descripcion {
-  font-size: 1rem;
+.info-section p {
+  margin: 8px 0;
   color: #555;
-  margin: 15px 0;
-  line-height: 1.5;
 }
 
-.perfil-input {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
+.info-section strong {
+  color: #4c1d95;
+}
+
+/* ===== SECCIÓN DE DESCRIPCIÓN ===== */
+.descripcion-section {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f5f3ff;
   border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  transition: border-color 0.2s;
+  border-left: 4px solid #6b21a8;
 }
 
-.perfil-input:focus {
-  border-color: #6b21a8;
-  outline: none;
+.descripcion-section p:first-child {
+  margin-bottom: 8px;
 }
 
-.perfil-btn {
-  display: inline-block;
-  margin-top: 15px;
+.descripcion-texto {
+  color: #4b5563;
+  font-style: italic;
+  line-height: 1.6;
+  margin-top: 5px;
+}
+
+/* ===== BOTONES Y FORMULARIOS ===== */
+.info-section button,
+.btn-editar {
+  background: #6b21a8;
+  color: #fff;
+  border: none;
   padding: 10px 25px;
-  border: 2px solid #6b21a8;
-  background: transparent;
-  color: #6b21a8;
-  font-weight: 500;
   border-radius: 6px;
   cursor: pointer;
+  font-weight: bold;
+  margin-top: 15px;
   transition: all 0.3s ease;
 }
 
-.perfil-btn:hover {
-  background: #6b21a8;
-  color: #fff;
-}
-
-.perfil-btn.primary {
-  background: #6b21a8;
-  color: #fff;
-}
-
-.perfil-btn.primary:hover {
+.info-section button:hover,
+.btn-editar:hover {
   background: #4c1d95;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(107, 33, 168, 0.3);
 }
 
-/* ======== RESPONSIVE ======== */
-@media (max-width: 600px) {
-  .perfil-header-content {
+.form-editar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.form-editar input,
+.form-editar textarea {
+  border: 1px solid #c4b5fd;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-editar input:focus,
+.form-editar textarea:focus {
+  border-color: #6b21a8;
+  box-shadow: 0 0 4px rgba(107, 33, 168, 0.3);
+}
+
+.form-editar textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+/* Botones de edición */
+.botones-edicion {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.btn-guardar,
+.btn-cancelar {
+  padding: 10px 25px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  border: none;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.btn-guardar {
+  background: #6b21a8;
+  color: #fff;
+}
+
+.btn-guardar:hover {
+  background: #4c1d95;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(107, 33, 168, 0.3);
+}
+
+.btn-cancelar {
+  background: #f3f4f6;
+  color: #6b7280;
+  border: 2px solid #d1d5db;
+}
+
+.btn-cancelar:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+}
+
+/* ===== CARGANDO ===== */
+.cargando {
+  text-align: center;
+  margin-top: 100px;
+  font-size: 1.2rem;
+  color: #6b21a8;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .perfil-header {
     flex-direction: column;
     gap: 15px;
+    padding: 15px 20px;
   }
 
-  .perfil-nav {
-    flex-wrap: wrap;
-    justify-content: center;
+  .header-logo {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
   }
 
-  .perfil-card {
+  .perfil-header nav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .perfil-header nav button {
+    width: 100%;
+  }
+
+  .perfil-bienvenida {
     width: 90%;
-    padding: 25px 20px;
   }
 
-  .perfil-nombre {
-    font-size: 1.5rem;
+  .perfil-content {
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+  }
+
+  .info-section,
+  .foto-section {
+    width: 90%;
+  }
+
+  .botones-edicion {
+    flex-direction: column;
+  }
+
+  .btn-guardar,
+  .btn-cancelar {
+    width: 100%;
   }
 }
+
+
+
 
