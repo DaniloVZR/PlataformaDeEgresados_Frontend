@@ -3,7 +3,9 @@ import { useUsuarioStore } from "../store/UsuarioStore";
 import defaultAvatar from "../Assets/defaultAvatar.jpg";
 import "../Styles/pages/Home.css";
 import { useState } from "react";
-import {ModalCrearPublicacion} from "../components/ModalCrearPublicacion";
+import ModalCrearPublicacion from "../components/ModalCrearPublicacion";
+
+
 
 export const Home = () => {
   const { cerrarSesion, usuario } = useUsuarioStore();

@@ -1,0 +1,122 @@
+/* Fondo oscuro y centrado */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* lo colocamos un poco más arriba */
+  padding-top: 6vh;
+  z-index: 1000;
+}
+
+/* Contenedor tipo Facebook */
+.modal-container.modal-fb {
+  background: #ffffff;
+  width: 95%;
+  max-width: 600px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Textarea tipo “¿Qué estás pensando?” */
+.modal-container textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  background: transparent;
+  font-size: 20px;
+  font-weight: 400;
+  color: #050505;
+  outline: none;
+  min-height: 120px;
+  margin-top: 10px;
+}
+
+.modal-container textarea::placeholder {
+  color: #65676b;
+}
+
+/* Sección de subida */
+.upload-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin-top: 12px;
+  background: #f8f9fa;
+}
+
+.upload-label {
+  color: #1877f2;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.file-name {
+  font-size: 14px;
+  color: #65676b;
+}
+
+/* Botones */
+.modal-buttons {
+  border-top: 1px solid #dadde1;
+  padding-top: 14px;
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-publicar {
+  width: 100%;
+  background: #1877f2;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+
+.btn-publicar:hover {
+  background: #166fe5;
+}
+
+.btn-publicar:disabled {
+  background: #a3c9f2;
+  cursor: not-allowed;
+}
+
+/* Mensaje de error */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+
+
+
+
