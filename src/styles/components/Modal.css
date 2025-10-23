@@ -68,7 +68,7 @@
 }
 
 .upload-label {
-  color: #1877f2;
+  color: #462cbb;
   font-weight: 600;
   cursor: pointer;
 }
@@ -89,7 +89,7 @@
 
 .btn-publicar {
   width: 100%;
-  background: #1877f2;
+  background: #462cbb;
   color: white;
   font-weight: 600;
   border: none;
@@ -101,11 +101,11 @@
 }
 
 .btn-publicar:hover {
-  background: #166fe5;
+  background: #572364;
 }
 
 .btn-publicar:disabled {
-  background: #a3c9f2;
+  background: #1e1b2e;
   cursor: not-allowed;
 }
 
