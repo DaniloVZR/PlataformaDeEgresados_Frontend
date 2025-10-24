@@ -24,6 +24,7 @@ export async function actualizarEgresado(data: any) {
 }
 
 export async function actualizarFoto(formData: FormData) {
+  console.log(formData);
   const res = await fetch(`${API_URL}/foto`, {
     method: "PUT",
     headers: {

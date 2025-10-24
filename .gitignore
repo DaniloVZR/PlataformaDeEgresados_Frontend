@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Node.js dependencies
+node_modules/
+
+# Archivos de configuración de entorno
+.env

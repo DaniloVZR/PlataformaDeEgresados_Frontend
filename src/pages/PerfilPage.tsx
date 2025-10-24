@@ -140,10 +140,10 @@ const PerfilEgresado: React.FC = () => {
           <label htmlFor="file-upload" className="custom-file-upload">
             Seleccionar archivo
           </label>
-          <input 
+          <input
             id="file-upload"
-            type="file" 
-            accept="image/png, image/jpeg" 
+            type="file"
+            accept="image/png, image/jpeg"
             onChange={handleFotoChange}
           />
         </div>
@@ -154,7 +154,7 @@ const PerfilEgresado: React.FC = () => {
           <p><strong>Correo:</strong> {perfil.email}</p>
           <p><strong>Programa:</strong> {perfil.programaAcademico}</p>
           <p><strong>Año de Graduación:</strong> {perfil.yearGraduacion}</p>
-          
+
           {/* Mostrar descripción si existe */}
           {perfil.descripcion && !editando && (
             <div className="descripcion-section">
