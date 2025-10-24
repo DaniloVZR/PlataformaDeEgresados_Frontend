@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../store/UsuarioStore";
 import defaultAvatar from "../Assets/defaultAvatar.jpg";
-import "../Styles/pages/Home.css";
+import "../styles/pages/Home.css";
 import { useState } from "react";
 import ModalCrearPublicacion from "../components/ModalCrearPublicacion";
 
