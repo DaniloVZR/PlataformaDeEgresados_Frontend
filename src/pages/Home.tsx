@@ -29,8 +29,6 @@ export const Home = () => {
   };
 
   const handleAbrirModal = () => {
-    alert("🟣 Click detectado");
-    console.log("🟣 setIsModalOpen(true)");
     setIsModalOpen(true);
   };
 
