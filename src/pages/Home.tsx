@@ -5,12 +5,9 @@ import "../styles/pages/Home.css";
 import { useState } from "react";
 import ModalCrearPublicacion from "../components/ModalCrearPublicacion";
 
-
-
 export const Home = () => {
   const { cerrarSesion, usuario } = useUsuarioStore();
   const navigate = useNavigate();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLogout = () => {
@@ -19,17 +16,12 @@ export const Home = () => {
   };
 
   const handleEdit = () => {
-    navigate("/editar-perfil");
+    navigate("/perfil");
   };
 
   const handlePublicacionCreada = () => {
-    console.log("✅ Publicación creada con éxito");
-    alert("Publicación creada con éxito ✅");
+    // TODO: Recargar feed de publicaciones
     setIsModalOpen(false);
-  };
-
-  const handleAbrirModal = () => {
-    setIsModalOpen(true);
   };
 
   return (
@@ -60,18 +52,17 @@ export const Home = () => {
         <h3 className="home-feed-title">Publicaciones recientes</h3>
 
         <div className="home-feed-actions">
-          <button className="home-btn home-btn-solid" onClick={handleAbrirModal}>
+          <button
+            className="home-btn home-btn-solid"
+            onClick={() => setIsModalOpen(true)}
+          >
             Crear publicación
-          </button>
-
-          <button className="home-btn home-btn-outline">
-            Buscar publicación
           </button>
         </div>
 
         <div className="home-feed-empty">
           <p>
-            No hay publicaciones aún. Aquí se mostrarán cuando la app las cargue.
+            No hay publicaciones aún. ¡Sé el primero en compartir algo!
           </p>
         </div>
       </section>
@@ -107,7 +98,3 @@ export const Home = () => {
     </main>
   );
 };
-
-
-
-

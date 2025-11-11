@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { crearPublicacion, type PublicacionData } from "../services/publicacion";
-import { useUsuarioStore } from "../store/UsuarioStore";
 import "../styles/components/Modal.css";
 
 interface ModalCrearPublicacionProps {
@@ -14,24 +13,24 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
   onClose,
   onPublicacionCreada,
 }) => {
-  const [titulo, setTitulo] = useState("");
-  const [contenido, setContenido] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [imagen, setImagen] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const { usuario } = useUsuarioStore();
-  const usuarioId = usuario?.id;
-
   if (!isOpen) return null;
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImagen(e.target.files[0]);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!usuarioId) {
-      setError("Error de autenticación: ID de usuario no encontrado.");
-      return;
-    }
-    if (!contenido.trim()) {
-      setError("El contenido no puede estar vacío.");
+
+    if (!descripcion.trim()) {
+      setError("La descripción no puede estar vacía.");
       return;
     }
 
@@ -40,27 +39,36 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
 
     try {
       const data: PublicacionData = {
-        titulo: titulo || "Publicación",
-        contenido,
-        usuarioId,
+        descripcion: descripcion.trim(),
       };
 
+      if (imagen) {
+        data.imagen = imagen;
+      }
+
       await crearPublicacion(data);
-      setTitulo("");
-      setContenido("");
+
+      // Limpiar formulario
+      setDescripcion("");
+      setImagen(null);
+
+      // Resetear input de archivo
+      const fileInput = document.getElementById("file-upload") as HTMLInputElement;
+      if (fileInput) fileInput.value = "";
+
       setLoading(false);
       onPublicacionCreada();
       onClose();
     } catch (err) {
       console.error("Error al publicar:", err);
-      setError("🚨 No se pudo crear la publicación...");
+      setError(err instanceof Error ? err.message : "No se pudo crear la publicación");
       setLoading(false);
     }
   };
 
   const handleClose = () => {
-    setTitulo("");
-    setContenido("");
+    setDescripcion("");
+    setImagen(null);
     setError(null);
     onClose();
   };
@@ -71,8 +79,8 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
         <form onSubmit={handleSubmit}>
           <textarea
             placeholder="¿Qué estás pensando?"
-            value={contenido}
-            onChange={(e) => setContenido(e.target.value)}
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
             disabled={loading}
             required
           />
@@ -81,8 +89,17 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
             <label htmlFor="file-upload" className="upload-label">
               📷 Agregar foto
             </label>
-            <input id="file-upload" type="file" disabled={loading} />
-            <p className="file-name">Ningún archivo seleccionado</p>
+            <input
+              id="file-upload"
+              type="file"
+              accept="image/png,image/jpeg,image/jpg"
+              onChange={handleImageChange}
+              disabled={loading}
+              style={{ display: 'none' }}
+            />
+            <p className="file-name">
+              {imagen ? imagen.name : "Ningún archivo seleccionado"}
+            </p>
           </div>
 
           {error && <p className="error-message">{error}</p>}
@@ -91,7 +108,7 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
             <button
               type="submit"
               className="btn-publicar"
-              disabled={loading || !contenido.trim()}
+              disabled={loading || !descripcion.trim()}
             >
               {loading ? "Publicando..." : "Publicar"}
             </button>
