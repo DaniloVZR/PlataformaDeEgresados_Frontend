@@ -1,3 +1,4 @@
+// src/services/publicacion.ts
 import { getToken } from "./usuario";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/publicacion`;
@@ -6,8 +7,6 @@ export interface PublicacionData {
   descripcion: string;
   imagen?: File;
 }
-
-// --- Funciones de PUBLICACIONES ---
 
 export const crearPublicacion = async (data: PublicacionData) => {
   try {
@@ -85,12 +84,30 @@ export const toggleLike = async (publicacionId: string) => {
       throw new Error("Error al procesar el like");
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    // El backend debe devolver: { success, msg, likes (count), liked (boolean) }
+    // Podemos extraer el userId del token si es necesario
+    return {
+      ...data,
+      userId: extractUserIdFromToken(token)
+    };
   } catch (error) {
     console.error("❌ Error en toggleLike:", error);
     throw error;
   }
 };
+
+// Función helper para extraer userId del token JWT
+function extractUserIdFromToken(token: string): string | null {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.id || null;
+  } catch (error) {
+    console.error("Error al decodificar token:", error);
+    return null;
+  }
+}
 
 export const eliminarPublicacion = async (publicacionId: string) => {
   try {

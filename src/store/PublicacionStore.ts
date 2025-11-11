@@ -14,7 +14,7 @@ export interface Publicacion {
   };
   descripcion: string;
   imagen: string;
-  likes: string[];
+  likes: string[]; // Array de IDs de usuarios
   createdAt: string;
   updatedAt: string;
 }
@@ -84,14 +84,16 @@ export const usePublicacionStore = create<PublicacionState>()(
           const data = await toggleLike(publicacionId);
 
           if (data.success) {
+            // Actualizar el estado localmente basado en la respuesta del backend
             set((state) => ({
               publicaciones: state.publicaciones.map((pub) =>
                 pub._id === publicacionId
                   ? {
                     ...pub,
+                    // El backend debe devolver el array actualizado de likes
                     likes: data.liked
-                      ? [...pub.likes, "current-user-id"] // Se agregará el ID real desde el backend
-                      : pub.likes.filter((id) => id !== "current-user-id"),
+                      ? [...pub.likes, data.userId || "temp-id"]
+                      : pub.likes.filter(id => id !== (data.userId || "temp-id"))
                   }
                   : pub
               ),
@@ -99,6 +101,7 @@ export const usePublicacionStore = create<PublicacionState>()(
           }
         } catch (error) {
           console.error("Error al dar like:", error);
+          throw error;
         }
       },
 
