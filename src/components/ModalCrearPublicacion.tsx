@@ -46,7 +46,7 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
         data.imagen = imagen;
       }
 
-      await crearPublicacion(data);
+      const response = await crearPublicacion(data);
 
       // Limpiar formulario
       setDescripcion("");
@@ -120,3 +120,11 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
 };
 
 export default ModalCrearPublicacion;
+
+// Cerrar modal al hacer clic en overlay
+document.addEventListener('click', (e) => {
+  if ((e.target as HTMLElement).classList.contains('modal-overlay')) {
+    const closeButton = document.querySelector('.modal-close') as HTMLButtonElement;
+    closeButton?.click();
+  }
+});

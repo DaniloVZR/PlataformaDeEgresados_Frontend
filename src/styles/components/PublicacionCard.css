@@ -1,0 +1,279 @@
+/* ========== PUBLICACION CARD ========== */
+.publicacion-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.25rem;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  animation: fadeIn 0.4s ease;
+}
+
+.publicacion-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.publicacion-card.deleting {
+  opacity: 0.5;
+  pointer-events: none;
+  text-align: center;
+  padding: 2rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== HEADER ========== */
+.publicacion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.autor-info {
+  display: flex;
+  gap: 0.875rem;
+  align-items: center;
+}
+
+.autor-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e5e5;
+}
+
+.autor-detalles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.autor-nombre {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.autor-meta {
+  font-size: 0.8125rem;
+  color: #666;
+  margin: 0;
+}
+
+.publicacion-fecha {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* ========== MENU ========== */
+.publicacion-menu {
+  position: relative;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  color: #666;
+  transition: background 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background: #f5f5f5;
+}
+
+.menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  z-index: 10;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  color: #333;
+  text-align: left;
+  transition: background 0.2s ease;
+}
+
+.menu-item:hover {
+  background: #f9f9f9;
+}
+
+.menu-item.delete {
+  color: #dc2626;
+}
+
+.menu-item.delete:hover {
+  background: #fef2f2;
+}
+
+/* ========== CONTENIDO ========== */
+.publicacion-contenido {
+  padding: 1rem 1.25rem;
+}
+
+.publicacion-descripcion {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #333;
+  margin: 0 0 1rem 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.publicacion-imagen-container {
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.publicacion-imagen {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+/* ========== FOOTER ========== */
+.publicacion-footer {
+  padding: 0.75rem 1.25rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.btn-like {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.btn-like:hover {
+  background: #f9f9f9;
+}
+
+.btn-like.liked {
+  color: #dc2626;
+}
+
+.btn-like.liked .icon-heart {
+  color: #dc2626;
+  animation: heartBeat 0.3s ease;
+}
+
+@keyframes heartBeat {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.2);
+  }
+
+  50% {
+    transform: scale(1);
+  }
+
+  75% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.likes-count {
+  font-weight: 500;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 640px) {
+  .publicacion-card {
+    border-radius: 0;
+    margin-bottom: 0.625rem;
+  }
+
+  .publicacion-header {
+    padding: 0.875rem 1rem;
+  }
+
+  .autor-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .autor-nombre {
+    font-size: 0.9375rem;
+  }
+
+  .autor-meta {
+    font-size: 0.75rem;
+  }
+
+  .publicacion-contenido {
+    padding: 0.875rem 1rem;
+  }
+
+  .publicacion-descripcion {
+    font-size: 0.875rem;
+  }
+
+  .publicacion-imagen {
+    max-height: 400px;
+  }
+
+  .publicacion-footer {
+    padding: 0.625rem 1rem;
+  }
+}

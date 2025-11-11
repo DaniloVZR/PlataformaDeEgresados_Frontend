@@ -8,47 +8,62 @@
   background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* lo colocamos un poco más arriba */
-  padding-top: 6vh;
+  align-items: center;
+  padding: 1rem;
   z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 /* Contenedor tipo Facebook */
 .modal-container.modal-fb {
   background: #ffffff;
-  width: 95%;
+  width: 100%;
   max-width: 600px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   padding: 18px 22px;
   display: flex;
   flex-direction: column;
-  animation: fadeIn 0.25s ease-in-out;
+  animation: slideUp 0.25s ease-in-out;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-@keyframes fadeIn {
+@keyframes slideUp {
   from {
-    transform: scale(0.95);
-    opacity: 0.8;
+    transform: translateY(20px);
+    opacity: 0;
   }
+
   to {
-    transform: scale(1);
+    transform: translateY(0);
     opacity: 1;
   }
 }
 
-/* Textarea tipo “¿Qué estás pensando?” */
+/* Textarea tipo "¿Qué estás pensando?" */
 .modal-container textarea {
   width: 100%;
   border: none;
   resize: none;
   background: transparent;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 400;
   color: #050505;
   outline: none;
   min-height: 120px;
   margin-top: 10px;
+  font-family: inherit;
 }
 
 .modal-container textarea::placeholder {
@@ -71,11 +86,18 @@
   color: #462cbb;
   font-weight: 600;
   cursor: pointer;
+  font-size: 15px;
 }
 
 .file-name {
-  font-size: 14px;
+  font-size: 13px;
   color: #65676b;
+  flex: 1;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 10px;
 }
 
 /* Botones */
@@ -105,18 +127,58 @@
 }
 
 .btn-publicar:disabled {
-  background: #1e1b2e;
+  background: #9ca3af;
   cursor: not-allowed;
 }
 
 /* Mensaje de error */
 .error-message {
-  color: red;
+  color: #dc2626;
   font-size: 14px;
   margin-top: 8px;
+  padding: 10px;
+  background: #fee2e2;
+  border-radius: 6px;
+  border: 1px solid #fecaca;
 }
 
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .modal-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
 
+  .modal-container.modal-fb {
+    border-radius: 12px 12px 0 0;
+    max-height: 85vh;
+    width: 100%;
+    animation: slideUpMobile 0.25s ease-in-out;
+  }
 
+  @keyframes slideUpMobile {
+    from {
+      transform: translateY(100%);
+    }
 
+    to {
+      transform: translateY(0);
+    }
+  }
 
+  .modal-container textarea {
+    font-size: 16px;
+    min-height: 100px;
+  }
+
+  .upload-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .file-name {
+    text-align: left;
+    margin-left: 0;
+  }
+}
