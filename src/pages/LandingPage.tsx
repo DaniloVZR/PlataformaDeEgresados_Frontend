@@ -1,26 +1,17 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import "../styles/pages/Landing.css";
 import { TypeAnimation } from 'react-type-animation';
 import LogoPascual from '../Assets/LogoPascual.jpg';
+
 export const LandingPage = () => {
+  const navigate = useNavigate();
 
   return (
     <div>
       <header className="landing-header">
         <div className="p-10">
           <h1 className="logo text-3xl font-bold">
-            <TypeAnimation
-              sequence={[
-                "Red de Egresados",
-                2000,
-                "",
-                1000,
-              ]}
-              speed={80}
-              deletionSpeed={60}
-              repeat={Infinity}
-              wrapper="span"
-            />
+            Red de Egresados
           </h1>
         </div>
 
@@ -56,16 +47,19 @@ export const LandingPage = () => {
               wrapper="span"
             />
           </p>
-          <button className="hero-button">Únete Ahora</button> {/* Agregué este botón de la imagen original */}
+          <button className="hero-button" onClick={() => navigate('/registrarse')}>
+            Únete Ahora
+          </button>
         </div>
       </section>
+
       {/* SOBRE NOSOTROS */}
       <section className="about-section">
         <h3 className="section-title">Sobre Nosotros</h3>
         <img
-          src={LogoPascual} // <--- ¡Usa la variable importada aquí!
+          src={LogoPascual}
           alt="Logo Pascual"
-          className="logo-about" // Puedes añadir una clase si quieres estilizarla
+          className="logo-about"
         />
         <p className="section-text">
           Nuestra plataforma fue creada con el objetivo de fortalecer la conexión entre
@@ -106,4 +100,3 @@ export const LandingPage = () => {
     </div>
   );
 };
-

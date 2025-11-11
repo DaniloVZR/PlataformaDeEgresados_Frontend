@@ -13,15 +13,15 @@ function App() {
 
   return (
     <Routes>
+      {/* Rutas públicas */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/iniciar-sesion" element={<LoginPage />} />
       <Route path="/registrarse" element={<RegisterPage />} />
       <Route path="/recuperar-contraseña" element={<RecuperarPassword />} />
       <Route path="/confirmar-cuenta/:token" element={<ConfirmarCuenta />} />
       <Route path="/cambiar-contraseña/:token" element={<CambiarPassword />} />
-      <Route path="/confirmar-cuenta/:token" element={<ConfirmarCuenta />} />
 
-      // Rutas privadas
+      {/* Rutas privadas */}
       <Route
         path="/home"
         element={
@@ -32,7 +32,7 @@ function App() {
       />
 
       <Route
-        path="/editar-perfil"
+        path="/perfil"
         element={
           <PrivateRoute>
             <PerfilPage />
@@ -44,4 +44,3 @@ function App() {
 }
 
 export default App
-

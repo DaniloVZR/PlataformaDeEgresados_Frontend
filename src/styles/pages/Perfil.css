@@ -18,7 +18,6 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Logo en el header */
 .header-logo {
   display: flex;
   align-items: center;
@@ -96,9 +95,45 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ====== MENSAJE DE FEEDBACK ====== */
+.mensaje-feedback {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px 20px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  animation: slideIn 0.3s ease;
+}
+
+.mensaje-feedback.success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #10b981;
+}
+
+.mensaje-feedback.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #ef4444;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
@@ -136,12 +171,29 @@
   transform: scale(1.05);
 }
 
-/* Ocultar input original de archivo */
+.subiendo-texto {
+  color: #6b21a8;
+  font-weight: 600;
+  margin-top: 10px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
 #file-upload {
   display: none;
 }
 
-/* Botón personalizado para subir archivo */
 .custom-file-upload {
   display: inline-block;
   padding: 10px 25px;
@@ -158,6 +210,11 @@
   background: #4c1d95;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(107, 33, 168, 0.3);
+}
+
+input[type="file"]:disabled+.custom-file-upload {
+  background: #9ca3af;
+  cursor: not-allowed;
 }
 
 /* ===== INFO DEL PERFIL ===== */
@@ -202,6 +259,38 @@
   font-style: italic;
   line-height: 1.6;
   margin-top: 5px;
+}
+
+/* ===== REDES SOCIALES ===== */
+.redes-section {
+  margin: 20px 0;
+  padding: 15px;
+  background: #f0fdf4;
+  border-radius: 8px;
+  border-left: 4px solid #10b981;
+}
+
+.redes-lista {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.redes-lista li {
+  margin: 8px 0;
+  color: #4b5563;
+}
+
+.redes-lista a {
+  color: #6b21a8;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.redes-lista a:hover {
+  color: #4c1d95;
+  text-decoration: underline;
 }
 
 /* ===== BOTONES Y FORMULARIOS ===== */
@@ -254,7 +343,6 @@
   font-family: inherit;
 }
 
-/* Botones de edición */
 .botones-edicion {
   display: flex;
   gap: 12px;
@@ -349,7 +437,3 @@
     width: 100%;
   }
 }
-
-
-
-
