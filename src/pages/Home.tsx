@@ -10,7 +10,7 @@ import { IconPlus, IconLogout, IconUser } from "@tabler/icons-react";
 
 export const Home = () => {
   const { cerrarSesion, usuario } = useUsuarioStore();
-  const { publicaciones, loading, error, hasMore, cargarPublicaciones, agregarPublicacion } = usePublicacionStore();
+  const { publicaciones, loading, error, hasMore, cargarPublicaciones } = usePublicacionStore();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);

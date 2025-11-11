@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { crearPublicacion, type PublicacionData } from "../services/publicacion";
+// import { crearPublicacion, type PublicacionData } from "../services/publicacion";
+import { type PublicacionData } from "../services/publicacion";
 import "../styles/components/Modal.css";
 
 interface ModalCrearPublicacionProps {
@@ -46,7 +47,7 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
         data.imagen = imagen;
       }
 
-      const response = await crearPublicacion(data);
+      // const response = await crearPublicacion(data);
 
       // Limpiar formulario
       setDescripcion("");
