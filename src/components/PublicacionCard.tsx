@@ -13,12 +13,25 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
   const { usuario } = useUsuarioStore();
   const [showMenu, setShowMenu] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [processingLike, setProcessingLike] = useState(false);
 
-  const esAutor = usuario?.id === publicacion?.autor?._id;
-  const hasLiked = false; // TODO: Verificar si el usuario actual dio like
+  const esAutor = usuario?.id === publicacion.autor?._id;
+
+  // Verificar si el usuario actual dio like
+  const hasLiked = publicacion.likes.includes(usuario?.id || "");
 
   const handleLike = async () => {
-    await darLike(publicacion._id);
+    if (processingLike) return; // Evitar múltiples clicks
+
+    setProcessingLike(true);
+    try {
+      await darLike(publicacion._id);
+    } catch (error) {
+      console.error("Error al dar like:", error);
+    } finally {
+      // Delay para evitar spam de clicks
+      setTimeout(() => setProcessingLike(false), 500);
+    }
   };
 
   const handleDelete = async () => {
@@ -69,7 +82,7 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
       <div className="publicacion-header">
         <div className="autor-info">
           <img
-            src={publicacion?.autor?.fotoPerfil || "/default-avatar.png"}
+            src={publicacion.autor?.fotoPerfil || "/default-avatar.png"}
             alt={`${publicacion.autor?.nombre} ${publicacion.autor?.apellido}`}
             className="autor-avatar"
           />
@@ -123,8 +136,9 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
       {/* Footer - Likes */}
       <div className="publicacion-footer">
         <button
-          className={`btn-like ${hasLiked ? "liked" : ""}`}
+          className={`btn-like ${hasLiked ? "liked" : ""} ${processingLike ? "processing" : ""}`}
           onClick={handleLike}
+          disabled={processingLike}
           aria-label={hasLiked ? "Quitar me gusta" : "Me gusta"}
         >
           {hasLiked ? (
@@ -133,7 +147,7 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
             <IconHeart size={24} className="icon-heart" />
           )}
           <span className="likes-count">
-            {publicacion.likes.length} {publicacion.likes.length === 1 ? "like" : "likes"}
+            {publicacion.likes.length}
           </span>
         </button>
       </div>

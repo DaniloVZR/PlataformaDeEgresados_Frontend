@@ -211,6 +211,15 @@
   animation: heartBeat 0.3s ease;
 }
 
+.btn-like.processing {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.btn-like:disabled {
+  cursor: not-allowed;
+}
+
 @keyframes heartBeat {
   0% {
     transform: scale(1);

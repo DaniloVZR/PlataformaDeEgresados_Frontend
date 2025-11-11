@@ -24,13 +24,29 @@ export async function actualizarEgresado(data: any) {
 }
 
 export async function actualizarFoto(formData: FormData) {
-  console.log(formData);
-  const res = await fetch(`${API_URL}/foto`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-    body: formData,
-  });
-  return await res.json();
+  try {
+    const token = getToken();
+    if (!token) {
+      throw new Error("No estás autenticado");
+    }
+
+    const res = await fetch(`${API_URL}/foto`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.msg || "Error al actualizar la foto");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error en actualizarFoto:", error);
+    throw error;
+  }
 }
