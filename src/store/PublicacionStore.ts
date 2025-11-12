@@ -2,6 +2,13 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { obtenerPublicaciones, toggleLike, eliminarPublicacion } from "../services/publicacion";
 
+export interface LikeUser {
+  _id: string;
+  nombre: string;
+  apellido: string;
+  fotoPerfil: string;
+}
+
 export interface Publicacion {
   _id: string;
   autor: {
@@ -14,7 +21,7 @@ export interface Publicacion {
   };
   descripcion: string;
   imagen: string;
-  likes: string[]; // Array de IDs de usuarios
+  likes: LikeUser[]; // Array de IDs de usuarios
   createdAt: string;
   updatedAt: string;
 }
