@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-// import { crearPublicacion, type PublicacionData } from "../services/publicacion";
-import { type PublicacionData } from "../services/publicacion";
+import { crearPublicacion, type PublicacionData } from "../services/publicacion";
 import "../styles/components/Modal.css";
 
 interface ModalCrearPublicacionProps {
@@ -47,19 +46,23 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
         data.imagen = imagen;
       }
 
-      // const response = await crearPublicacion(data);
+      const response = await crearPublicacion(data);
 
-      // Limpiar formulario
-      setDescripcion("");
-      setImagen(null);
+      if (response.success) {
+        // Limpiar formulario
+        setDescripcion("");
+        setImagen(null);
 
-      // Resetear input de archivo
-      const fileInput = document.getElementById("file-upload") as HTMLInputElement;
-      if (fileInput) fileInput.value = "";
+        // Resetear input de archivo
+        const fileInput = document.getElementById("file-upload") as HTMLInputElement;
+        if (fileInput) fileInput.value = "";
 
-      setLoading(false);
-      onPublicacionCreada();
-      onClose();
+        setLoading(false);
+        onPublicacionCreada();
+        onClose();
+      } else {
+        throw new Error(response.msg || "Error al crear la publicación");
+      }
     } catch (err) {
       console.error("Error al publicar:", err);
       setError(err instanceof Error ? err.message : "No se pudo crear la publicación");
@@ -121,11 +124,3 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
 };
 
 export default ModalCrearPublicacion;
-
-// Cerrar modal al hacer clic en overlay
-document.addEventListener('click', (e) => {
-  if ((e.target as HTMLElement).classList.contains('modal-overlay')) {
-    const closeButton = document.querySelector('.modal-close') as HTMLButtonElement;
-    closeButton?.click();
-  }
-});
