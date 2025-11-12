@@ -1,21 +1,24 @@
 import { useNavigate } from "react-router-dom";
 import { useUsuarioStore } from "../store/UsuarioStore";
+import { useEgresadoStore } from "../store/EgresadoStore";
 import { usePublicacionStore } from "../store/PublicacionStore";
 import { PublicacionCard } from "../components/PublicacionCard";
-import defaultAvatar from "../Assets/defaultAvatar.jpg";
 import "../styles/pages/Home.css";
 import { useEffect, useState, useRef } from "react";
 import ModalCrearPublicacion from "../components/ModalCrearPublicacion";
-import { IconPlus, IconLogout, IconUser } from "@tabler/icons-react";
+import { IconPlus, IconLogout, IconUser, IconHome, IconMenu2, IconX } from "@tabler/icons-react";
 
 export const Home = () => {
   const { cerrarSesion, usuario } = useUsuarioStore();
+  const { egresado, cargarPerfil } = useEgresadoStore();
   const { publicaciones, loading, error, hasMore, cargarPublicaciones } = usePublicacionStore();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    cargarPerfil();
     cargarPublicaciones(true);
   }, []);
 
@@ -56,35 +59,90 @@ export const Home = () => {
     setIsModalOpen(false);
   };
 
+  const avatarUrl = egresado?.fotoPerfil || `https://ui-avatars.com/api/?name=${encodeURIComponent(usuario?.nombre || "U")}&background=7a3e9d&color=fff`;
+
   return (
-    <div className="home-wrapper">
-      {/* SIDEBAR IZQUIERDO - Solo en desktop */}
-      <aside className="home-sidebar-left">
-        <div className="sidebar-card">
-          <div className="perfil-preview">
-            <img
-              src={defaultAvatar}
-              alt="Foto de perfil"
-              className="perfil-avatar"
-            />
-            <h2 className="perfil-nombre">{usuario?.nombre || "Usuario"}</h2>
-            <p className="perfil-correo">{usuario?.correo}</p>
+    <div style={{ minHeight: '100vh', background: '#f5f2f8' }}>
+      {/* NAVBAR GLOBAL */}
+      <nav className="global-navbar">
+        <div className="navbar-container">
+          {/* Logo */}
+          <div className="navbar-logo">
+            <IconHome size={28} />
+            <span className="navbar-logo-text">Red de Egresados</span>
           </div>
 
-          <div className="perfil-actions">
-            <button onClick={handleEdit} className="btn-action btn-outline">
+          {/* Desktop Menu */}
+          <div className="navbar-desktop-menu">
+            <div className="navbar-user-info">
+              <img
+                src={avatarUrl}
+                alt="Avatar"
+                className="navbar-avatar"
+              />
+              <div>
+                <p className="navbar-user-name">{usuario?.nombre}</p>
+                <p className="navbar-user-email">{usuario?.correo}</p>
+              </div>
+            </div>
+
+            <button onClick={handleEdit} className="navbar-btn navbar-btn-outline">
               <IconUser size={20} />
-              Ver perfil
+              Perfil
             </button>
-            <button onClick={handleLogout} className="btn-action btn-logout">
+
+            <button onClick={handleLogout} className="navbar-btn navbar-btn-danger">
               <IconLogout size={20} />
+              Salir
+            </button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="navbar-mobile-toggle"
+          >
+            {mobileMenuOpen ? <IconX size={28} /> : <IconMenu2 size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="navbar-mobile-menu">
+            <div className="navbar-mobile-user">
+              <img src={avatarUrl} alt="Avatar" className="navbar-mobile-avatar" />
+              <div>
+                <p className="navbar-mobile-user-name">{usuario?.nombre}</p>
+                <p className="navbar-mobile-user-email">{usuario?.correo}</p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                handleEdit();
+                setMobileMenuOpen(false);
+              }}
+              className="navbar-mobile-btn navbar-mobile-btn-outline"
+            >
+              <IconUser size={22} />
+              Ver mi perfil
+            </button>
+
+            <button
+              onClick={() => {
+                handleLogout();
+                setMobileMenuOpen(false);
+              }}
+              className="navbar-mobile-btn navbar-mobile-btn-danger"
+            >
+              <IconLogout size={22} />
               Cerrar sesión
             </button>
           </div>
-        </div>
-      </aside>
+        )}
+      </nav>
 
-      {/* FEED CENTRAL */}
+      {/* CONTENIDO PRINCIPAL */}
       <main className="home-feed">
         {/* Header del feed */}
         <div className="feed-header">
@@ -101,7 +159,7 @@ export const Home = () => {
         {/* Botón crear (desktop) */}
         <div className="crear-publicacion-box">
           <img
-            src={defaultAvatar}
+            src={avatarUrl}
             alt="Tu foto"
             className="crear-avatar"
           />
@@ -143,7 +201,6 @@ export const Home = () => {
           ))}
         </div>
 
-        {/* Loading y scroll infinito */}
         {loading && (
           <div className="loading-box">
             <div className="spinner"></div>
@@ -159,44 +216,6 @@ export const Home = () => {
           </div>
         )}
       </main>
-
-      {/* SIDEBAR DERECHO - Solo en desktop */}
-      <aside className="home-sidebar-right">
-        <div className="sidebar-card">
-          <h3 className="sidebar-title">✨ Sugerencias</h3>
-          <ul className="sugerencias-lista">
-            <li>
-              <a href="#">Conecta con amigos</a>
-            </li>
-            <li>
-              <a href="#">Explora grupos de tu programa</a>
-            </li>
-            <li>
-              <a href="#">Comparte tus logros</a>
-            </li>
-            <li>
-              <a href="#">Busca ofertas laborales</a>
-            </li>
-            <li>
-              <a href="#">Actualiza tu perfil</a>
-            </li>
-          </ul>
-        </div>
-
-        <div className="sidebar-card">
-          <h3 className="sidebar-title">📊 Estadísticas</h3>
-          <div className="estadisticas">
-            <div className="stat-item">
-              <span className="stat-label">Publicaciones</span>
-              <span className="stat-value">{publicaciones.length}</span>
-            </div>
-            <div className="stat-item">
-              <span className="stat-label">Miembros</span>
-              <span className="stat-value">250+</span>
-            </div>
-          </div>
-        </div>
-      </aside>
 
       {/* MODAL */}
       <ModalCrearPublicacion
