@@ -14,14 +14,13 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
   const [showMenu, setShowMenu] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [processingLike, setProcessingLike] = useState(false);
+  const [showLikesPopup, setShowLikesPopup] = useState(false);
 
   const esAutor = usuario?.id === publicacion.autor?._id;
-
-  // Verificar si el usuario actual dio like
   const hasLiked = publicacion.likes.includes(usuario?.id || "");
 
   const handleLike = async () => {
-    if (processingLike) return; // Evitar múltiples clicks
+    if (processingLike) return;
 
     setProcessingLike(true);
     try {
@@ -29,7 +28,6 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
     } catch (error) {
       console.error("Error al dar like:", error);
     } finally {
-      // Delay para evitar spam de clicks
       setTimeout(() => setProcessingLike(false), 500);
     }
   };
@@ -135,21 +133,48 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
 
       {/* Footer - Likes */}
       <div className="publicacion-footer">
-        <button
-          className={`btn-like ${hasLiked ? "liked" : ""} ${processingLike ? "processing" : ""}`}
-          onClick={handleLike}
-          disabled={processingLike}
-          aria-label={hasLiked ? "Quitar me gusta" : "Me gusta"}
+        <div
+          style={{ position: 'relative' }}
+          onMouseEnter={() => setShowLikesPopup(true)}
+          onMouseLeave={() => setShowLikesPopup(false)}
         >
-          {hasLiked ? (
-            <IconHeartFilled size={24} className="icon-heart" />
-          ) : (
-            <IconHeart size={24} className="icon-heart" />
+          <button
+            className={`btn-like ${hasLiked ? "liked" : ""} ${processingLike ? "processing" : ""}`}
+            onClick={handleLike}
+            disabled={processingLike}
+            aria-label={hasLiked ? "Quitar me gusta" : "Me gusta"}
+          >
+            {hasLiked ? (
+              <IconHeartFilled size={24} className="icon-heart" />
+            ) : (
+              <IconHeart size={24} className="icon-heart" />
+            )}
+            <span className="likes-count">
+              {publicacion.likes.length}
+            </span>
+          </button>
+
+          {/* Popup de likes */}
+          {showLikesPopup && publicacion.likes.length > 0 && (
+            <div className="likes-popup">
+              <p className="likes-popup-title">
+                Les gusta a {publicacion.likes.length} {publicacion.likes.length === 1 ? 'persona' : 'personas'}
+              </p>
+              <div className="likes-popup-list">
+                {publicacion.likes.slice(0, 10).map((likeId, index) => (
+                  <p key={likeId || index} className="likes-popup-item">
+                    • Usuario {index + 1}
+                  </p>
+                ))}
+                {publicacion.likes.length > 10 && (
+                  <p className="likes-popup-more">
+                    y {publicacion.likes.length - 10} más...
+                  </p>
+                )}
+              </div>
+            </div>
           )}
-          <span className="likes-count">
-            {publicacion.likes.length}
-          </span>
-        </button>
+        </div>
       </div>
     </article>
   );

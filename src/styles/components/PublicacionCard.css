@@ -286,3 +286,47 @@
     padding: 0.625rem 1rem;
   }
 }
+
+/* ========== LIKES POPUP ========== */
+.likes-popup {
+  position: absolute;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.75rem;
+  min-width: 200px;
+  max-width: 300px;
+  z-index: 20;
+  animation: fadeIn 0.2s ease;
+}
+
+.likes-popup-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.5rem 0;
+}
+
+.likes-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.likes-popup-item {
+  font-size: 0.8125rem;
+  color: #666;
+  margin: 0;
+}
+
+.likes-popup-more {
+  font-size: 0.8125rem;
+  color: #999;
+  margin: 0.25rem 0 0 0;
+  font-style: italic;
+}
