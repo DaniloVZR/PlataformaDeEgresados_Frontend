@@ -1,3 +1,4 @@
+// src/components/PublicacionCard.tsx
 import { IconHeart, IconHeartFilled, IconTrash, IconDots } from "@tabler/icons-react";
 import { useState } from "react";
 import { usePublicacionStore, type Publicacion } from "../store/PublicacionStore";
@@ -17,7 +18,8 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
   const [showLikesPopup, setShowLikesPopup] = useState(false);
 
   const esAutor = usuario?.id === publicacion.autor?._id;
-  const hasLiked = publicacion.likes.includes(usuario?.id || "");
+  // CAMBIADO: ahora likes es un array de objetos, no de strings
+  const hasLiked = publicacion.likes.some(like => like._id === usuario?.id);
 
   const handleLike = async () => {
     if (processingLike) return;
@@ -154,17 +156,24 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
             </span>
           </button>
 
-          {/* Popup de likes */}
+          {/* Popup de likes con nombres reales */}
           {showLikesPopup && publicacion.likes.length > 0 && (
             <div className="likes-popup">
               <p className="likes-popup-title">
                 Les gusta a {publicacion.likes.length} {publicacion.likes.length === 1 ? 'persona' : 'personas'}
               </p>
               <div className="likes-popup-list">
-                {publicacion.likes.slice(0, 10).map((likeId, index) => (
-                  <p key={likeId || index} className="likes-popup-item">
-                    • Usuario {index + 1}
-                  </p>
+                {publicacion.likes.slice(0, 10).map((like) => (
+                  <div key={like._id} className="likes-popup-user">
+                    <img
+                      src={like.fotoPerfil || '/default-avatar.png'}
+                      alt={`${like.nombre} ${like.apellido}`}
+                      className="likes-popup-avatar"
+                    />
+                    <p className="likes-popup-name">
+                      {like.nombre} {like.apellido}
+                    </p>
+                  </div>
                 ))}
                 {publicacion.likes.length > 10 && (
                   <p className="likes-popup-more">
