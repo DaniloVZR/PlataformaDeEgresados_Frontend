@@ -91,16 +91,12 @@ export const usePublicacionStore = create<PublicacionState>()(
           const data = await toggleLike(publicacionId);
 
           if (data.success) {
-            // Actualizar el estado localmente basado en la respuesta del backend
             set((state) => ({
               publicaciones: state.publicaciones.map((pub) =>
                 pub._id === publicacionId
                   ? {
                     ...pub,
-                    // El backend debe devolver el array actualizado de likes
-                    likes: data.liked
-                      ? [...pub.likes, data.userId || "temp-id"]
-                      : pub.likes.filter(id => id !== (data.userId || "temp-id"))
+                    likes: data.liked || pub.likes,
                   }
                   : pub
               ),

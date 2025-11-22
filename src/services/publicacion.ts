@@ -1,4 +1,3 @@
-// src/services/publicacion.ts
 import { getToken } from "./usuario";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/publicacion`;
@@ -37,7 +36,7 @@ export const crearPublicacion = async (data: PublicacionData) => {
 
     return await response.json();
   } catch (error) {
-    console.error("❌ Error en crearPublicacion:", error);
+    console.error("Error en crearPublicacion:", error);
     throw error;
   }
 };
@@ -61,7 +60,7 @@ export const obtenerPublicaciones = async (page = 1, limit = 10) => {
 
     return await response.json();
   } catch (error) {
-    console.error("❌ Error en obtenerPublicaciones:", error);
+    console.error("Error en obtenerPublicaciones:", error);
     throw error;
   }
 };
@@ -86,28 +85,13 @@ export const toggleLike = async (publicacionId: string) => {
 
     const data = await response.json();
 
-    // El backend debe devolver: { success, msg, likes (count), liked (boolean) }
-    // Podemos extraer el userId del token si es necesario
-    return {
-      ...data,
-      userId: extractUserIdFromToken(token)
-    };
+    return data;
+
   } catch (error) {
-    console.error("❌ Error en toggleLike:", error);
+    console.error("Error en toggleLike:", error);
     throw error;
   }
 };
-
-// Función helper para extraer userId del token JWT
-function extractUserIdFromToken(token: string): string | null {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.id || null;
-  } catch (error) {
-    console.error("Error al decodificar token:", error);
-    return null;
-  }
-}
 
 export const eliminarPublicacion = async (publicacionId: string) => {
   try {
@@ -129,7 +113,7 @@ export const eliminarPublicacion = async (publicacionId: string) => {
 
     return await response.json();
   } catch (error) {
-    console.error("❌ Error en eliminarPublicacion:", error);
+    console.error("Error en eliminarPublicacion:", error);
     throw error;
   }
 };
