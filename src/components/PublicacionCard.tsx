@@ -1,4 +1,3 @@
-// src/components/PublicacionCard.tsx
 import { IconHeart, IconHeartFilled, IconTrash, IconDots, IconMessageCircle } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import { usePublicacionStore, type Publicacion } from "../store/PublicacionStore";
