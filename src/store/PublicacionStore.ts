@@ -21,7 +21,7 @@ export interface Publicacion {
   };
   descripcion: string;
   imagen: string;
-  likes: LikeUser[]; // Array de IDs de usuarios
+  likes: LikeUser[];
   createdAt: string;
   updatedAt: string;
 }
@@ -90,17 +90,19 @@ export const usePublicacionStore = create<PublicacionState>()(
         try {
           const data = await toggleLike(publicacionId);
 
-          if (data.success) {
+          if (data.success && Array.isArray(data.likesData)) {
             set((state) => ({
               publicaciones: state.publicaciones.map((pub) =>
                 pub._id === publicacionId
                   ? {
                     ...pub,
-                    likes: data.liked || pub.likes,
+                    likes: [...data.likesData] // Crear nuevo array para forzar re-render
                   }
                   : pub
               ),
             }));
+          } else {
+            console.error("likesData no es un array:", data.likesData);
           }
         } catch (error) {
           console.error("Error al dar like:", error);
