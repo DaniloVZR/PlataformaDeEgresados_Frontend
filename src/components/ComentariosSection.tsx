@@ -152,7 +152,7 @@ export const ComentariosSection = ({ publicacionId, onComentariosCountChange }: 
               </div>
               <p className="comentario-texto">{comentario.contenido}</p>
             </div>
-            {usuario?.id === comentario.autor?._id && (
+            {egresado?._id === comentario.autor?._id && (
               <button
                 onClick={() => handleEliminar(comentario._id)}
                 className="comentario-btn-eliminar"
