@@ -345,3 +345,41 @@
   margin: 0.25rem 0 0 0;
   font-style: italic;
 }
+
+/* ========== AGREGAR AL FINAL DE PublicacionCard.css ========== */
+
+/* Footer con flexbox para likes y comentarios */
+.publicacion-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Botón de comentarios */
+.btn-comentarios {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9375rem;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.btn-comentarios:hover {
+  background: #f9f9f9;
+  color: #7a3e9d;
+}
+
+.btn-comentarios.active {
+  color: #7a3e9d;
+  background: #f5ebff;
+}
+
+.btn-comentarios span {
+  font-weight: 500;
+}
