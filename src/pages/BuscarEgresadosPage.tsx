@@ -84,8 +84,6 @@ const BuscarEgresadosPage: React.FC = () => {
 
   const hayFiltrosActivos = searchQuery || programaFiltro || anioFiltro;
 
-  console.log(aniosDisponibles);
-
   return (
     <div className="buscar-page">
       {/* Header */}
@@ -148,7 +146,7 @@ const BuscarEgresadosPage: React.FC = () => {
               onChange={(e) => setAnioFiltro(e.target.value)}
             >
               <option value="">Todos los años</option>
-              {aniosDisponibles?.map((anio) => (
+              {aniosDisponibles.map((anio) => (
                 <option key={anio} value={anio}>{anio}</option>
               ))}
             </select>

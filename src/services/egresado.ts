@@ -106,8 +106,6 @@ export const obtenerAnios = async () => {
     throw new Error("Error al obtener años");
   }
 
-  console.log(response);
-
   return await response.json();
 };
 
