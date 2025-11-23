@@ -33,7 +33,7 @@ const BuscarEgresadosPage: React.FC = () => {
         ]);
 
         if (programasData.success) setProgramasDisponibles(programasData.programas);
-        if (aniosData.success) setAniosDisponibles(aniosData.anios);
+        if (aniosData.success) setAniosDisponibles(aniosData.years);
       } catch (error) {
         console.error("Error al cargar filtros:", error);
       }
