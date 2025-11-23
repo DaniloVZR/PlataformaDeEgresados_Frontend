@@ -6,7 +6,7 @@ import { PublicacionCard } from "../components/PublicacionCard";
 import "../styles/pages/Home.css";
 import { useEffect, useState, useRef } from "react";
 import ModalCrearPublicacion from "../components/ModalCrearPublicacion";
-import { IconPlus, IconLogout, IconUser, IconHome, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconPlus, IconLogout, IconUser, IconHome, IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
 
 export const Home = () => {
   const { cerrarSesion, usuario } = useUsuarioStore();
@@ -50,8 +50,12 @@ export const Home = () => {
     navigate("/iniciar-sesion");
   };
 
-  const handleEdit = () => {
+  const handlePerfil = () => {
     navigate("/perfil");
+  };
+
+  const handleBuscarEgresados = () => {
+    navigate("/egresados");
   };
 
   const handlePublicacionCreada = () => {
@@ -74,6 +78,11 @@ export const Home = () => {
 
           {/* Desktop Menu */}
           <div className="navbar-desktop-menu">
+            <button onClick={handleBuscarEgresados} className="navbar-btn navbar-btn-outline">
+              <IconSearch size={20} />
+              Buscar Egresados
+            </button>
+
             <div className="navbar-user-info">
               <img
                 src={avatarUrl}
@@ -86,7 +95,7 @@ export const Home = () => {
               </div>
             </div>
 
-            <button onClick={handleEdit} className="navbar-btn navbar-btn-outline">
+            <button onClick={handlePerfil} className="navbar-btn navbar-btn-outline">
               <IconUser size={20} />
               Perfil
             </button>
@@ -119,7 +128,18 @@ export const Home = () => {
 
             <button
               onClick={() => {
-                handleEdit();
+                handleBuscarEgresados();
+                setMobileMenuOpen(false);
+              }}
+              className="navbar-mobile-btn navbar-mobile-btn-outline"
+            >
+              <IconSearch size={22} />
+              Buscar Egresados
+            </button>
+
+            <button
+              onClick={() => {
+                handlePerfil();
                 setMobileMenuOpen(false);
               }}
               className="navbar-mobile-btn navbar-mobile-btn-outline"
