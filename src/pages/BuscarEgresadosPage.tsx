@@ -33,7 +33,7 @@ const BuscarEgresadosPage: React.FC = () => {
         ]);
 
         if (programasData.success) setProgramasDisponibles(programasData.programas);
-        if (aniosData.success) setAniosDisponibles(aniosData.anios);
+        if (aniosData.success) setAniosDisponibles(aniosData.years);
       } catch (error) {
         console.error("Error al cargar filtros:", error);
       }
@@ -83,6 +83,8 @@ const BuscarEgresadosPage: React.FC = () => {
   };
 
   const hayFiltrosActivos = searchQuery || programaFiltro || anioFiltro;
+
+  console.log(aniosDisponibles);
 
   return (
     <div className="buscar-page">
@@ -146,7 +148,7 @@ const BuscarEgresadosPage: React.FC = () => {
               onChange={(e) => setAnioFiltro(e.target.value)}
             >
               <option value="">Todos los años</option>
-              {aniosDisponibles.map((anio) => (
+              {aniosDisponibles?.map((anio) => (
                 <option key={anio} value={anio}>{anio}</option>
               ))}
             </select>
