@@ -383,3 +383,24 @@
 .btn-comentarios span {
   font-weight: 500;
 }
+
+/* Usuario PF */
+
+.autor-info {
+  display: flex;
+  gap: 0.875rem;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.25rem;
+  margin: -0.25rem;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.autor-info:hover {
+  background: #f5f5f5;
+}
+
+.autor-info:hover .autor-nombre {
+  color: #7a3e9d;
+}
