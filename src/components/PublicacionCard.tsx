@@ -1,8 +1,7 @@
-// src/components/PublicacionCard.tsx
 import { IconHeart, IconHeartFilled, IconTrash, IconDots, IconMessageCircle } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { usePublicacionStore, type Publicacion } from "../store/PublicacionStore";
-import { useUsuarioStore } from "../store/UsuarioStore";
 import { useEgresadoStore } from "../store/EgresadoStore";
 import { ComentariosSection } from "./ComentariosSection";
 import { contarComentarios } from "../services/comentario";
@@ -13,8 +12,8 @@ interface PublicacionCardProps {
 }
 
 export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
+  const navigate = useNavigate();
   const { darLike, eliminarPublicacion } = usePublicacionStore();
-  const { usuario } = useUsuarioStore();
   const { egresado } = useEgresadoStore();
   const [showMenu, setShowMenu] = useState(false);
   const [showComentarios, setShowComentarios] = useState(false);
@@ -23,26 +22,19 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
   const [processingLike, setProcessingLike] = useState(false);
   const [showLikesPopup, setShowLikesPopup] = useState(false);
 
-  // Estado local para likes - se sincroniza con la publicación
   const [likesLocal, setLikesLocal] = useState(publicacion.likes);
 
-  // Sincronizar cuando cambia la publicación desde el store
   useEffect(() => {
     setLikesLocal(publicacion.likes);
   }, [publicacion.likes]);
 
-  const esAutor = usuario?.id === publicacion.autor?._id;
-
-  // Usar likesLocal en lugar de publicacion.likes
+  // Verificar si el autor es el usuario actual
+  const esAutor = egresado?._id === publicacion.autor?._id;
   const likesArray = Array.isArray(likesLocal) ? likesLocal : [];
-
-  // Comparar con el ID del EGRESADO, no del usuario
   const egresadoId = egresado?._id;
 
   const hasLiked = likesArray.some(like => {
-    if (typeof like === 'string') {
-      return like === egresadoId;
-    }
+    if (typeof like === 'string') return like === egresadoId;
     return like?._id === egresadoId;
   });
 
@@ -50,9 +42,7 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
     const cargarConteo = async () => {
       try {
         const data = await contarComentarios(publicacion._id);
-        if (data.success) {
-          setComentariosCount(data.total);
-        }
+        if (data.success) setComentariosCount(data.total);
       } catch (error) {
         console.error("Error al contar comentarios:", error);
       }
@@ -80,6 +70,17 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
     } catch (error) {
       alert("Error al eliminar la publicación");
       setDeleting(false);
+    }
+  };
+
+  const handleAutorClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    // Si es mi propia publicación, ir a mi perfil sin ID
+    if (esAutor) {
+      navigate("/perfil");
+    } else {
+      // Si es de otro usuario, ir a su perfil con ID
+      navigate(`/perfil/${publicacion.autor._id}`);
     }
   };
 
@@ -114,7 +115,7 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
     <article className="publicacion-card">
       {/* Header */}
       <div className="publicacion-header">
-        <div className="autor-info">
+        <div className="autor-info" onClick={handleAutorClick} style={{ cursor: 'pointer' }}>
           <img
             src={publicacion.autor?.fotoPerfil || "/default-avatar.png"}
             alt={`${publicacion.autor?.nombre} ${publicacion.autor?.apellido}`}
@@ -158,7 +159,7 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
         )}
       </div>
 
-      {/* Footer - Likes y Comentarios */}
+      {/* Footer */}
       <div className="publicacion-footer">
         <div
           style={{ position: 'relative' }}
@@ -181,7 +182,6 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
               </p>
               <div className="likes-popup-list">
                 {likesArray.slice(0, 10).map((like, index) => {
-                  // Soportar tanto objetos como strings
                   if (typeof like === 'string') {
                     return (
                       <div key={like} className="likes-popup-user">
@@ -190,7 +190,12 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
                     );
                   }
                   return (
-                    <div key={like._id || index} className="likes-popup-user">
+                    <div
+                      key={like._id || index}
+                      className="likes-popup-user"
+                      onClick={() => navigate(`/perfil/${like._id}`)}
+                      style={{ cursor: 'pointer' }}
+                    >
                       <img src={like.fotoPerfil || '/default-avatar.png'} alt={like.nombre || 'Usuario'} className="likes-popup-avatar" />
                       <p className="likes-popup-name">{like.nombre} {like.apellido}</p>
                     </div>
@@ -204,7 +209,6 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
           )}
         </div>
 
-        {/* Botón de comentarios */}
         <button
           className={`btn-comentarios ${showComentarios ? "active" : ""}`}
           onClick={() => setShowComentarios(!showComentarios)}
@@ -214,7 +218,6 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
         </button>
       </div>
 
-      {/* Sección de comentarios (expandible) */}
       {showComentarios && (
         <ComentariosSection
           publicacionId={publicacion._id}

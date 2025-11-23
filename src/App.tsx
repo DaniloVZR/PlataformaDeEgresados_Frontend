@@ -8,6 +8,7 @@ import { ConfirmarCuenta } from "./pages/ConfirmarCuenta"
 import { Home } from "./pages/Home"
 import PerfilPage from "./pages/PerfilPage";
 import { PrivateRoute } from "./components/PrivateRoute"
+import BuscarEgresadosPage from "./pages/BuscarEgresadosPage"
 
 function App() {
 
@@ -39,6 +40,25 @@ function App() {
           </PrivateRoute>
         }
       />
+
+      <Route
+        path="/perfil/:id"
+        element={
+          <PrivateRoute>
+            <PerfilPage />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/egresados"
+        element={
+          <PrivateRoute>
+            <BuscarEgresadosPage />
+          </PrivateRoute>
+        }
+      />
+
     </Routes>
   )
 }
