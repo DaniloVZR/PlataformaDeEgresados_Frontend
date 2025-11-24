@@ -6,7 +6,7 @@ import { PublicacionCard } from "../components/PublicacionCard";
 import "../styles/pages/Home.css";
 import { useEffect, useState, useRef } from "react";
 import ModalCrearPublicacion from "../components/ModalCrearPublicacion";
-import { IconPlus, IconLogout, IconUser, IconHome, IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
+import { IconPlus, IconLogout, IconUser, IconHome, IconMenu2, IconX, IconSearch, IconShieldCheck } from "@tabler/icons-react";
 
 export const Home = () => {
   const { cerrarSesion, usuario } = useUsuarioStore();
@@ -83,6 +83,13 @@ export const Home = () => {
               Buscar Egresados
             </button>
 
+            {usuario?.rol === 'administrador' && (
+              <button onClick={() => navigate("/admin")} className="navbar-btn navbar-btn-outline" style={{ borderColor: '#dc2626', color: '#dc2626' }}>
+                <IconShieldCheck size={20} />
+                Admin
+              </button>
+            )}
+
             <div className="navbar-user-info">
               <img
                 src={avatarUrl}
@@ -136,6 +143,20 @@ export const Home = () => {
               <IconSearch size={22} />
               Buscar Egresados
             </button>
+
+            {usuario?.rol === 'administrador' && (
+              <button
+                onClick={() => {
+                  navigate("/admin");
+                  setMobileMenuOpen(false);
+                }}
+                className="navbar-mobile-btn navbar-mobile-btn-outline"
+                style={{ borderColor: '#dc2626', color: '#dc2626' }}
+              >
+                <IconShieldCheck size={22} />
+                Panel de Admin
+              </button>
+            )}
 
             <button
               onClick={() => {

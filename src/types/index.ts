@@ -3,4 +3,5 @@ export type TUsuario = {
   nombre: string;
   correo: string;
   confirmado: boolean;
+  rol: string;
 }
