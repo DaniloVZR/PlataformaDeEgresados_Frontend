@@ -1,0 +1,168 @@
+/* src/styles/pages/AdminPublicaciones.css */
+
+.admin-publicaciones {
+  min-height: 100vh;
+  background: #f5f2f8;
+  padding-bottom: 2rem;
+}
+
+/* ========== PUBLICACIONES GRID ========== */
+.publicaciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 1.5rem;
+}
+
+.pub-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pub-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* ========== HEADER ========== */
+.pub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.25rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.autor-info {
+  display: flex;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.autor-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e5e5;
+  flex-shrink: 0;
+}
+
+.autor-nombre {
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 0.25rem 0;
+  font-size: 0.9375rem;
+}
+
+.autor-email {
+  font-size: 0.8125rem;
+  color: #666;
+  margin: 0 0 0.25rem 0;
+}
+
+.pub-fecha {
+  font-size: 0.75rem;
+  color: #999;
+  margin: 0;
+}
+
+.btn-eliminar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  color: #dc2626;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-eliminar:hover:not(:disabled) {
+  background: #fee2e2;
+}
+
+.btn-eliminar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== CONTENIDO ========== */
+.pub-contenido {
+  padding: 1.25rem;
+}
+
+.pub-descripcion {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #333;
+  margin: 0 0 1rem 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pub-imagen-container {
+  margin-top: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+
+.pub-imagen {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ========== STATS ========== */
+.pub-stats {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #f0f0f0;
+  background: #f9f9f9;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.stat-item svg {
+  color: #7a3e9d;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .publicaciones-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .publicaciones-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pub-card {
+    border-radius: 12px;
+  }
+
+  .pub-descripcion {
+    font-size: 0.875rem;
+  }
+}

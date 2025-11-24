@@ -9,6 +9,10 @@ import { Home } from "./pages/Home"
 import PerfilPage from "./pages/PerfilPage";
 import { PrivateRoute } from "./components/PrivateRoute"
 import BuscarEgresadosPage from "./pages/BuscarEgresadosPage"
+import { AdminRoute } from "./components/AdminRoute"
+import { AdminPublicaciones } from "./pages/AdminPublicaciones"
+import { AdminDashboard } from "./pages/AdminDashboard"
+import { AdminUsuarios } from "./pages/AdminUsuarios"
 
 function App() {
 
@@ -56,6 +60,34 @@ function App() {
           <PrivateRoute>
             <BuscarEgresadosPage />
           </PrivateRoute>
+        }
+      />
+
+      {/* Rutas de administrador */}
+      <Route
+        path="/admin"
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/usuarios"
+        element={
+          <AdminRoute>
+            <AdminUsuarios />
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/admin/publicaciones"
+        element={
+          <AdminRoute>
+            <AdminPublicaciones />
+          </AdminRoute>
         }
       />
 
