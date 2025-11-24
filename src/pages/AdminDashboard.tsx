@@ -4,7 +4,6 @@ import {
   IconUsers,
   IconPhoto,
   IconUserCheck,
-  IconUserOff,
   IconHeart,
   IconTrendingUp,
   IconArrowLeft,
