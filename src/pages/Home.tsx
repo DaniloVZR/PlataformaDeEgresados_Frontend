@@ -6,11 +6,13 @@ import { PublicacionCard } from "../components/PublicacionCard";
 import "../styles/pages/Home.css";
 import { useEffect, useState, useRef } from "react";
 import ModalCrearPublicacion from "../components/ModalCrearPublicacion";
-import { IconPlus, IconLogout, IconUser, IconHome, IconMenu2, IconX, IconSearch, IconShieldCheck } from "@tabler/icons-react";
+import { IconMessage, IconPlus, IconLogout, IconUser, IconHome, IconMenu2, IconX, IconSearch, IconShieldCheck } from "@tabler/icons-react";
+import { useMensajeStore } from "../store/MensajeStore";
 
 export const Home = () => {
   const { cerrarSesion, usuario } = useUsuarioStore();
   const { egresado, cargarPerfil } = useEgresadoStore();
+  const { mensajesNoLeidos, cargarContadorNoLeidos } = useMensajeStore();
   const { publicaciones, loading, error, hasMore, cargarPublicaciones } = usePublicacionStore();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,6 +22,15 @@ export const Home = () => {
   useEffect(() => {
     cargarPerfil();
     cargarPublicaciones(true);
+  }, []);
+
+  useEffect(() => {
+    cargarContadorNoLeidos();
+    // Recargar cada 30 segundos
+    const interval = setInterval(() => {
+      cargarContadorNoLeidos();
+    }, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   // Infinite scroll
@@ -81,6 +92,18 @@ export const Home = () => {
             <button onClick={handleBuscarEgresados} className="navbar-btn navbar-btn-outline">
               <IconSearch size={20} />
               Buscar Egresados
+            </button>
+
+            <button
+              onClick={() => navigate("/mensajes")}
+              className="navbar-btn navbar-btn-outline"
+              style={{ position: 'relative' }}
+            >
+              <IconMessage size={20} />
+              Mensajes
+              {mensajesNoLeidos > 0 && (
+                <span className="navbar-badge">{mensajesNoLeidos}</span>
+              )}
             </button>
 
             {usuario?.rol === 'administrador' && (
