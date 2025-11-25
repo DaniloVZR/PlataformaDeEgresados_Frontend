@@ -530,3 +530,33 @@
   justify-content: center;
   padding: 2rem;
 }
+
+/* Boton enviar mensaje */
+
+/* Agregar en src/styles/pages/Profile.css */
+
+.btn-enviar-mensaje {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: #7a3e9d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+  .btn-enviar-mensaje {
+    margin-top: 0;
+    margin-left: auto;
+  }
+}
+
+.btn-enviar-mensaje:hover {
+  background: #5b2d79;
+}
