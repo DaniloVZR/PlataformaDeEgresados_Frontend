@@ -112,8 +112,6 @@ export const VentanaChat = memo(() => {
   const estaEnLinea = usuarioActivo && usuariosConectados.includes(usuarioActivo._id);
   const estaEscribiendo = conversacionActiva && usuarioEscribiendo[conversacionActiva];
 
-  console.log('🔄 VentanaChat rendering, mensajes:', mensajesActuales.length);
-
   if (!conversacionActiva || !usuarioActivo) {
     return (
       <div className="ventana-chat-vacia">

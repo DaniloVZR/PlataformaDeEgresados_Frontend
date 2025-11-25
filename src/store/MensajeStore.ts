@@ -86,8 +86,7 @@ export const useMensajeStore = create<MensajeState>()(
       try {
         const data = await enviarMensaje(receptorId, contenido);
         if (data.success) {
-          // NO recargar aquí, el socket se encarga
-          console.log('✅ Mensaje enviado, esperando confirmación socket');
+          console.log('Mensaje enviado, esperando confirmación socket');
         }
       } catch (error) {
         console.error("Error al enviar mensaje:", error);
@@ -137,11 +136,11 @@ export const useMensajeStore = create<MensajeState>()(
       // Solo agregar si NO existe ya (evitar duplicados)
       const existe = mensajesActuales.find(m => m._id === mensaje._id);
       if (existe) {
-        console.log('⚠️ Mensaje duplicado ignorado:', mensaje._id);
+        console.log('Mensaje duplicado ignorado:', mensaje._id);
         return;
       }
 
-      console.log('✅ Agregando mensaje local:', mensaje._id);
+      console.log('Agregando mensaje local:', mensaje._id);
       set({ mensajesActuales: [...mensajesActuales, mensaje] });
     },
 
@@ -151,7 +150,7 @@ export const useMensajeStore = create<MensajeState>()(
       const socket = getSocket();
       if (!socket) return;
 
-      console.log('🔧 Configurando event listeners del socket...');
+      console.log('Configurando event listeners del socket...');
 
       // IMPORTANTE: Limpiar listeners anteriores
       socket.off('mensaje:nuevo');
@@ -165,7 +164,7 @@ export const useMensajeStore = create<MensajeState>()(
 
       // Nuevo mensaje recibido
       socket.on('mensaje:nuevo', ({ mensaje }: { mensaje: Mensaje }) => {
-        console.log('📨 Mensaje nuevo recibido:', mensaje);
+        console.log('Mensaje nuevo recibido:', mensaje);
         const { conversacionActiva } = get();
 
         // Si es la conversación activa, agregar mensaje
@@ -194,7 +193,6 @@ export const useMensajeStore = create<MensajeState>()(
 
       // Mensaje enviado confirmado
       socket.on('mensaje:enviado', ({ mensaje }: { mensaje: Mensaje }) => {
-        console.log('✅ Mensaje enviado confirmado:', mensaje);
         const { conversacionActiva } = get();
 
         if (conversacionActiva === mensaje.receptor._id) {
@@ -245,18 +243,13 @@ export const useMensajeStore = create<MensajeState>()(
 
       // Lista inicial de usuarios conectados
       socket.on('usuarios:conectados', ({ usuariosConectados }: { usuariosConectados: string[] }) => {
-        console.log('👥 Usuarios conectados:', usuariosConectados);
         set({ usuariosConectados });
       });
-
-      console.log('✅ Event listeners configurados');
     },
 
     limpiarSocket: () => {
       const socket = getSocket();
       if (!socket) return;
-
-      console.log('🧹 Limpiando event listeners...');
 
       // Limpiar timeout de conversaciones
       if ((window as any).conversacionesTimeout) {

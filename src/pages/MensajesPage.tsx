@@ -32,11 +32,8 @@ export const MensajesPage = () => {
 
     // Evitar inicialización múltiple
     if (socketInicializadoRef.current) {
-      console.log('⚠️ Socket ya inicializado');
       return;
     }
-
-    console.log('🚀 Inicializando socket en MensajesPage...');
 
     // Inicializar socket
     inicializarSocket(token);
@@ -49,7 +46,6 @@ export const MensajesPage = () => {
 
     // Cleanup al desmontar
     return () => {
-      console.log('🧹 Limpiando socket en MensajesPage...');
       limpiarSocket();
       desconectarSocket();
       socketInicializadoRef.current = false;
@@ -60,9 +56,9 @@ export const MensajesPage = () => {
     <div className="mensajes-page">
       {/* Header */}
       <header className="mensajes-header">
-        <button onClick={() => navigate("/home")} className="btn-back">
+        <button onClick={() => navigate("/home")} className="navbar-back">
           <IconArrowLeft size={24} />
-          <span>Volver al inicio</span>
+          <span>Inicio</span>
         </button>
       </header>
 

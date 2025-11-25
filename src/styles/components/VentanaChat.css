@@ -150,6 +150,7 @@
 .mensaje.mio {
   flex-direction: row-reverse;
   align-self: flex-end;
+  width: 100%;
 }
 
 .mensaje-avatar {

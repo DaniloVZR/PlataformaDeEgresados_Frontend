@@ -26,6 +26,7 @@ export const AdminUsuarios = () => {
   const [filtros, setFiltros] = useState<FiltrosUsuarios>({
     page: 1,
     limit: 10,
+    buscar: ""
   });
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
@@ -35,11 +36,17 @@ export const AdminUsuarios = () => {
 
   useEffect(() => {
     cargarUsuarios();
-  }, [filtros.page, filtros.rol, filtros.activo]);
+  }, [filtros.page, filtros.rol, filtros.activo, filtros.buscar]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setFiltros((prev) => ({ ...prev, buscar: searchQuery, page: 1 }));
+      if (filtros.buscar !== searchQuery) {
+        setFiltros((prev) => ({
+          ...prev,
+          buscar: searchQuery,
+          page: 1 // Resetear a página 1 al buscar
+        }));
+      }
     }, 500);
     return () => clearTimeout(timer);
   }, [searchQuery]);
@@ -109,9 +116,9 @@ export const AdminUsuarios = () => {
       {/* Header */}
       <header className="admin-header">
         <div className="admin-header-content">
-          <button onClick={() => navigate("/admin")} className="btn-back">
+          <button onClick={() => navigate("/admin")} className="navbar-back">
             <IconArrowLeft size={24} />
-            <span>Volver al dashboard</span>
+            <span>Dashboard</span>
           </button>
           <h1>Gestión de Usuarios</h1>
           <p className="header-subtitle">
