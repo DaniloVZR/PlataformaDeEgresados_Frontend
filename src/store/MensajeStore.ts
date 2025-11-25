@@ -1,3 +1,4 @@
+// src/store/MensajeStore.ts
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import {
@@ -22,7 +23,6 @@ interface MensajeState {
   loading: boolean;
   loadingMensajes: boolean;
 
-  // Acciones
   cargarConversaciones: () => Promise<void>;
   cargarConversacion: (usuarioId: string) => Promise<void>;
   enviarMensaje: (receptorId: string, contenido: string) => Promise<void>;
@@ -30,10 +30,9 @@ interface MensajeState {
   cargarContadorNoLeidos: () => Promise<void>;
   marcarComoLeido: (usuarioId: string) => Promise<void>;
 
-  // Socket events
   inicializarSocket: () => void;
   limpiarSocket: () => void;
-  agregarMensajeRecibido: (mensaje: Mensaje) => void;
+  agregarMensajeLocal: (mensaje: Mensaje) => void;
   actualizarUsuariosConectados: (usuarios: string[]) => void;
   setUsuarioEscribiendo: (usuarioId: string, escribiendo: boolean) => void;
 }
@@ -51,6 +50,10 @@ export const useMensajeStore = create<MensajeState>()(
     loadingMensajes: false,
 
     cargarConversaciones: async () => {
+      const { loading } = get();
+      if (loading) return; // Evitar llamadas simultáneas
+
+      set({ loading: true });
       try {
         const data = await obtenerConversaciones();
         if (data.success) {
@@ -58,6 +61,8 @@ export const useMensajeStore = create<MensajeState>()(
         }
       } catch (error) {
         console.error("Error al cargar conversaciones:", error);
+      } finally {
+        set({ loading: false });
       }
     },
 
@@ -66,7 +71,10 @@ export const useMensajeStore = create<MensajeState>()(
       try {
         const data = await obtenerConversacion(usuarioId);
         if (data.success) {
-          set({ mensajesActuales: data.mensajes, loadingMensajes: false });
+          set({
+            mensajesActuales: data.mensajes,
+            loadingMensajes: false
+          });
         }
       } catch (error) {
         console.error("Error al cargar conversación:", error);
@@ -78,8 +86,8 @@ export const useMensajeStore = create<MensajeState>()(
       try {
         const data = await enviarMensaje(receptorId, contenido);
         if (data.success) {
-          // El mensaje se agregará vía socket
-          await get().cargarConversaciones();
+          // NO recargar aquí, el socket se encarga
+          console.log('✅ Mensaje enviado, esperando confirmación socket');
         }
       } catch (error) {
         console.error("Error al enviar mensaje:", error);
@@ -90,14 +98,13 @@ export const useMensajeStore = create<MensajeState>()(
     setConversacionActiva: (usuarioId: string | null, usuario?: any) => {
       set({
         conversacionActiva: usuarioId,
-        usuarioActivo: usuario || null
+        usuarioActivo: usuario || null,
+        mensajesActuales: [] // Limpiar mensajes anteriores
       });
 
       if (usuarioId) {
         get().cargarConversacion(usuarioId);
         get().marcarComoLeido(usuarioId);
-      } else {
-        set({ mensajesActuales: [] });
       }
     },
 
@@ -115,11 +122,27 @@ export const useMensajeStore = create<MensajeState>()(
     marcarComoLeido: async (usuarioId: string) => {
       try {
         await marcarComoLeido(usuarioId);
-        await get().cargarConversaciones();
-        await get().cargarContadorNoLeidos();
+        get().cargarContadorNoLeidos();
+        // NO recargar conversaciones aquí, solo el contador
       } catch (error) {
         console.error("Error al marcar como leído:", error);
       }
+    },
+
+    // ==================== HELPERS ====================
+
+    agregarMensajeLocal: (mensaje: Mensaje) => {
+      const { mensajesActuales } = get();
+
+      // Solo agregar si NO existe ya (evitar duplicados)
+      const existe = mensajesActuales.find(m => m._id === mensaje._id);
+      if (existe) {
+        console.log('⚠️ Mensaje duplicado ignorado:', mensaje._id);
+        return;
+      }
+
+      console.log('✅ Agregando mensaje local:', mensaje._id);
+      set({ mensajesActuales: [...mensajesActuales, mensaje] });
     },
 
     // ==================== SOCKET HANDLERS ====================
@@ -128,33 +151,54 @@ export const useMensajeStore = create<MensajeState>()(
       const socket = getSocket();
       if (!socket) return;
 
+      console.log('🔧 Configurando event listeners del socket...');
+
+      // IMPORTANTE: Limpiar listeners anteriores
+      socket.off('mensaje:nuevo');
+      socket.off('mensaje:enviado');
+      socket.off('mensaje:escribiendo');
+      socket.off('mensaje:dejo-escribir');
+      socket.off('mensajes:leidos');
+      socket.off('usuario:en-linea');
+      socket.off('usuario:desconectado');
+      socket.off('usuarios:conectados');
+
       // Nuevo mensaje recibido
       socket.on('mensaje:nuevo', ({ mensaje }: { mensaje: Mensaje }) => {
-        const { conversacionActiva, mensajesActuales } = get();
+        console.log('📨 Mensaje nuevo recibido:', mensaje);
+        const { conversacionActiva } = get();
 
         // Si es la conversación activa, agregar mensaje
         if (conversacionActiva === mensaje.emisor._id) {
-          set({ mensajesActuales: [...mensajesActuales, mensaje] });
+          get().agregarMensajeLocal(mensaje);
           get().marcarComoLeido(mensaje.emisor._id);
         } else {
-          // Actualizar contador de no leídos
+          // Solo actualizar contador, NO conversaciones
           get().cargarContadorNoLeidos();
         }
 
-        // Actualizar lista de conversaciones
-        get().cargarConversaciones();
+        // Actualizar lista de conversaciones SOLO UNA VEZ
+        // Usar un debounce para evitar múltiples llamadas
+        const updateConversaciones = () => {
+          get().cargarConversaciones();
+        };
+
+        // Cancelar timeout anterior si existe
+        if ((window as any).conversacionesTimeout) {
+          clearTimeout((window as any).conversacionesTimeout);
+        }
+
+        // Esperar 500ms antes de actualizar
+        (window as any).conversacionesTimeout = setTimeout(updateConversaciones, 500);
       });
 
       // Mensaje enviado confirmado
       socket.on('mensaje:enviado', ({ mensaje }: { mensaje: Mensaje }) => {
-        const { conversacionActiva, mensajesActuales } = get();
+        console.log('✅ Mensaje enviado confirmado:', mensaje);
+        const { conversacionActiva } = get();
 
         if (conversacionActiva === mensaje.receptor._id) {
-          // Verificar que no esté duplicado
-          const existe = mensajesActuales.find(m => m._id === mensaje._id);
-          if (!existe) {
-            set({ mensajesActuales: [...mensajesActuales, mensaje] });
-          }
+          get().agregarMensajeLocal(mensaje);
         }
       });
 
@@ -176,17 +220,23 @@ export const useMensajeStore = create<MensajeState>()(
       socket.on('mensajes:leidos', ({ receptorId }: { receptorId: string }) => {
         const { conversacionActiva } = get();
         if (conversacionActiva === receptorId) {
-          get().cargarConversacion(receptorId);
+          // Actualizar estado de leído en mensajes locales
+          set(state => ({
+            mensajesActuales: state.mensajesActuales.map(m =>
+              m.receptor._id === receptorId ? { ...m, leido: true } : m
+            )
+          }));
         }
       });
 
-      // Usuario conectado/desconectado
+      // Usuario conectado
       socket.on('usuario:en-linea', ({ egresadoId }: { egresadoId: string }) => {
         set(state => ({
-          usuariosConectados: [...state.usuariosConectados, egresadoId]
+          usuariosConectados: [...new Set([...state.usuariosConectados, egresadoId])]
         }));
       });
 
+      // Usuario desconectado
       socket.on('usuario:desconectado', ({ egresadoId }: { egresadoId: string }) => {
         set(state => ({
           usuariosConectados: state.usuariosConectados.filter(id => id !== egresadoId)
@@ -195,13 +245,24 @@ export const useMensajeStore = create<MensajeState>()(
 
       // Lista inicial de usuarios conectados
       socket.on('usuarios:conectados', ({ usuariosConectados }: { usuariosConectados: string[] }) => {
+        console.log('👥 Usuarios conectados:', usuariosConectados);
         set({ usuariosConectados });
       });
+
+      console.log('✅ Event listeners configurados');
     },
 
     limpiarSocket: () => {
       const socket = getSocket();
       if (!socket) return;
+
+      console.log('🧹 Limpiando event listeners...');
+
+      // Limpiar timeout de conversaciones
+      if ((window as any).conversacionesTimeout) {
+        clearTimeout((window as any).conversacionesTimeout);
+        (window as any).conversacionesTimeout = null;
+      }
 
       socket.off('mensaje:nuevo');
       socket.off('mensaje:enviado');
@@ -211,13 +272,6 @@ export const useMensajeStore = create<MensajeState>()(
       socket.off('usuario:en-linea');
       socket.off('usuario:desconectado');
       socket.off('usuarios:conectados');
-    },
-
-    agregarMensajeRecibido: (mensaje: Mensaje) => {
-      const { conversacionActiva, mensajesActuales } = get();
-      if (conversacionActiva === mensaje.emisor._id) {
-        set({ mensajesActuales: [...mensajesActuales, mensaje] });
-      }
     },
 
     actualizarUsuariosConectados: (usuarios: string[]) => {

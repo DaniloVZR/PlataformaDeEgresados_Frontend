@@ -1,5 +1,5 @@
 .mensajes-page {
-  min-height: 100vh;
+  max-height: 100vh;
   background: #f5f2f8;
   display: flex;
   flex-direction: column;
