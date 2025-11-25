@@ -14,6 +14,7 @@ import { AdminPublicaciones } from "./pages/AdminPublicaciones"
 import { AdminDashboard } from "./pages/AdminDashboard"
 import { AdminUsuarios } from "./pages/AdminUsuarios"
 import { MensajesPage } from "./pages/MensajesPage"
+import { NotFoundPage } from "./pages/NotFoundPage"
 
 function App() {
 
@@ -100,6 +101,8 @@ function App() {
           </PrivateRoute>
         }
       />
+
+      <Route path="*" element={<NotFoundPage />} />
 
     </Routes>
   )
