@@ -1,5 +1,5 @@
 // src/pages/MensajesPage.tsx
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useMensajeStore } from "../store/MensajeStore";
@@ -13,20 +13,48 @@ export const MensajesPage = () => {
   const navigate = useNavigate();
   const { token } = useUsuarioStore();
   const { inicializarSocket: inicializarSocketStore, limpiarSocket, conversacionActiva } = useMensajeStore();
+  const socketInicializadoRef = useRef(false);
+
+  // useEffect(() => {
+  //   if (!socketInicializadoRef.current) {
+  //     inicializarSocketStore();
+  //     socketInicializadoRef.current = true;
+  //   }
+  // }, []);
+
 
   useEffect(() => {
-    if (!token) return;
+    if (!token) {
+      console.error('❌ No hay token disponible');
+      navigate('/iniciar-sesion');
+      return;
+    }
+
+    // Evitar inicialización múltiple
+    if (socketInicializadoRef.current) {
+      console.log('⚠️ Socket ya inicializado');
+      return;
+    }
+
+    console.log('🚀 Inicializando socket en MensajesPage...');
 
     // Inicializar socket
     inicializarSocket(token);
     conectarSocket();
+
+    // Configurar listeners del store
     inicializarSocketStore();
 
+    socketInicializadoRef.current = true;
+
+    // Cleanup al desmontar
     return () => {
+      console.log('🧹 Limpiando socket en MensajesPage...');
       limpiarSocket();
       desconectarSocket();
+      socketInicializadoRef.current = false;
     };
-  }, [token]);
+  }, [token]); // Solo dependencia en token
 
   return (
     <div className="mensajes-page">

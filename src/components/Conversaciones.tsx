@@ -1,23 +1,27 @@
-import { useEffect } from "react";
+// src/components/Conversaciones.tsx
+import { useEffect, memo } from "react";
 import { useMensajeStore } from "../store/MensajeStore";
 import { IconMessage, IconCircleFilled } from "@tabler/icons-react";
 import "../styles/components/Conversaciones.css";
 
-export const Conversaciones = () => {
-  const {
-    conversaciones,
-    conversacionActiva,
-    mensajesNoLeidos,
-    usuariosConectados,
-    setConversacionActiva,
-    cargarConversaciones,
-    cargarContadorNoLeidos
-  } = useMensajeStore();
+export const Conversaciones = memo(() => {
+  const conversaciones = useMensajeStore(state => state.conversaciones);
+  const conversacionActiva = useMensajeStore(state => state.conversacionActiva);
+  const mensajesNoLeidos = useMensajeStore(state => state.mensajesNoLeidos);
+  const usuariosConectados = useMensajeStore(state => state.usuariosConectados);
+  const setConversacionActiva = useMensajeStore(state => state.setConversacionActiva);
+  const cargarConversaciones = useMensajeStore(state => state.cargarConversaciones);
+  const cargarContadorNoLeidos = useMensajeStore(state => state.cargarContadorNoLeidos);
 
   useEffect(() => {
+    console.log('🔄 Conversaciones component mounted');
     cargarConversaciones();
     cargarContadorNoLeidos();
-  }, []);
+
+    return () => {
+      console.log('🔄 Conversaciones component unmounted');
+    };
+  }, []); // Solo una vez al montar
 
   const formatearFecha = (fecha: string) => {
     const date = new Date(fecha);
@@ -37,6 +41,8 @@ export const Conversaciones = () => {
   const estaEnLinea = (usuarioId: string) => {
     return usuariosConectados.includes(usuarioId);
   };
+
+  console.log('🔄 Conversaciones rendering, cantidad:', conversaciones.length);
 
   return (
     <div className="conversaciones-sidebar">
@@ -58,53 +64,78 @@ export const Conversaciones = () => {
           </div>
         ) : (
           conversaciones.map((conv) => (
-            <div
+            <ConversacionItem
               key={conv.usuario._id}
-              className={`conversacion-item ${conversacionActiva === conv.usuario._id ? "activa" : ""
-                }`}
+              conv={conv}
+              isActive={conversacionActiva === conv.usuario._id}
+              estaEnLinea={estaEnLinea(conv.usuario._id)}
+              formatearFecha={formatearFecha}
               onClick={() => setConversacionActiva(conv.usuario._id, conv.usuario)}
-            >
-              <div className="conversacion-avatar-container">
-                <img
-                  src={
-                    conv.usuario.fotoPerfil ||
-                    `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                      conv.usuario.nombre + " " + conv.usuario.apellido
-                    )}&background=7a3e9d&color=fff`
-                  }
-                  alt={conv.usuario.nombre}
-                  className="conversacion-avatar"
-                />
-                {estaEnLinea(conv.usuario._id) && (
-                  <IconCircleFilled size={12} className="status-online" />
-                )}
-              </div>
-
-              <div className="conversacion-info">
-                <div className="conversacion-header">
-                  <span className="conversacion-nombre">
-                    {conv.usuario.nombre} {conv.usuario.apellido}
-                  </span>
-                  <span className="conversacion-fecha">
-                    {formatearFecha(conv.ultimoMensaje.createdAt)}
-                  </span>
-                </div>
-                <div className="conversacion-preview">
-                  <p className={conv.mensajesNoLeidos > 0 ? "no-leido" : ""}>
-                    {conv.ultimoMensaje.esMio && "Tú: "}
-                    {conv.ultimoMensaje.contenido.length > 40
-                      ? conv.ultimoMensaje.contenido.substring(0, 40) + "..."
-                      : conv.ultimoMensaje.contenido}
-                  </p>
-                  {conv.mensajesNoLeidos > 0 && (
-                    <span className="badge-contador">{conv.mensajesNoLeidos}</span>
-                  )}
-                </div>
-              </div>
-            </div>
+            />
           ))
         )}
       </div>
     </div>
   );
-};
+});
+
+Conversaciones.displayName = 'Conversaciones';
+
+// Componente memo para cada conversación individual
+const ConversacionItem = memo(({ conv, isActive, estaEnLinea, formatearFecha, onClick }: any) => {
+  return (
+    <div
+      className={`conversacion-item ${isActive ? "activa" : ""}`}
+      onClick={onClick}
+    >
+      <div className="conversacion-avatar-container">
+        <img
+          src={
+            conv.usuario.fotoPerfil ||
+            `https://ui-avatars.com/api/?name=${encodeURIComponent(
+              conv.usuario.nombre + " " + conv.usuario.apellido
+            )}&background=7a3e9d&color=fff`
+          }
+          alt={conv.usuario.nombre}
+          className="conversacion-avatar"
+        />
+        {estaEnLinea && (
+          <IconCircleFilled size={12} className="status-online" />
+        )}
+      </div>
+
+      <div className="conversacion-info">
+        <div className="conversacion-header">
+          <span className="conversacion-nombre">
+            {conv.usuario.nombre} {conv.usuario.apellido}
+          </span>
+          <span className="conversacion-fecha">
+            {formatearFecha(conv.ultimoMensaje.createdAt)}
+          </span>
+        </div>
+        <div className="conversacion-preview">
+          <p className={conv.mensajesNoLeidos > 0 ? "no-leido" : ""}>
+            {conv.ultimoMensaje.esMio && "Tú: "}
+            {conv.ultimoMensaje.contenido.length > 40
+              ? conv.ultimoMensaje.contenido.substring(0, 40) + "..."
+              : conv.ultimoMensaje.contenido}
+          </p>
+          {conv.mensajesNoLeidos > 0 && (
+            <span className="badge-contador">{conv.mensajesNoLeidos}</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}, (prevProps, nextProps) => {
+  // Solo re-renderizar si cambian estas props
+  return (
+    prevProps.isActive === nextProps.isActive &&
+    prevProps.estaEnLinea === nextProps.estaEnLinea &&
+    prevProps.conv.mensajesNoLeidos === nextProps.conv.mensajesNoLeidos &&
+    prevProps.conv.ultimoMensaje.contenido === nextProps.conv.ultimoMensaje.contenido &&
+    prevProps.conv.ultimoMensaje.createdAt === nextProps.conv.ultimoMensaje.createdAt
+  );
+});
+
+ConversacionItem.displayName = 'ConversacionItem';
