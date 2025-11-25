@@ -13,6 +13,7 @@ import { AdminRoute } from "./components/AdminRoute"
 import { AdminPublicaciones } from "./pages/AdminPublicaciones"
 import { AdminDashboard } from "./pages/AdminDashboard"
 import { AdminUsuarios } from "./pages/AdminUsuarios"
+import { MensajesPage } from "./pages/MensajesPage"
 
 function App() {
 
@@ -88,6 +89,15 @@ function App() {
           <AdminRoute>
             <AdminPublicaciones />
           </AdminRoute>
+        }
+      />
+
+      <Route
+        path="/mensajes"
+        element={
+          <PrivateRoute>
+            <MensajesPage />
+          </PrivateRoute>
         }
       />
 

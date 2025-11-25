@@ -6,6 +6,8 @@ import { obtenerPerfilPublico, obtenerPublicacionesEgresado, obtenerPublicacione
 import { useUsuarioStore } from "../store/UsuarioStore";
 import { useEgresadoStore } from "../store/EgresadoStore";
 import { PublicacionCard } from "../components/PublicacionCard";
+import { IconMessage } from "@tabler/icons-react";
+import { useMensajeStore } from "../store/MensajeStore";
 import type { Publicacion } from "../store/PublicacionStore";
 import "../styles/pages/Profile.css";
 
@@ -15,6 +17,7 @@ const PerfilPage: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const navigate = useNavigate();
   const { cerrarSesion } = useUsuarioStore();
+  const { setConversacionActiva } = useMensajeStore();
   const { egresado: miPerfil, cargarPerfil: cargarMiPerfil } = useEgresadoStore();
 
   const [perfil, setPerfil] = useState<any>(null);
@@ -275,6 +278,25 @@ const PerfilPage: React.FC = () => {
           {esMiPerfil && !editando && (
             <button className="btn-editar-perfil" onClick={() => setEditando(true)}>
               <IconEdit size={18} /> Editar perfil
+            </button>
+          )}
+
+          {!esMiPerfil && (
+            <button
+              className="btn-enviar-mensaje"
+              onClick={() => {
+                setConversacionActiva(perfil._id, {
+                  _id: perfil._id,
+                  nombre: perfil.nombre,
+                  apellido: perfil.apellido,
+                  fotoPerfil: perfil.fotoPerfil,
+                  programaAcademico: perfil.programaAcademico
+                });
+                navigate('/mensajes');
+              }}
+            >
+              <IconMessage size={18} />
+              Enviar mensaje
             </button>
           )}
         </div>
