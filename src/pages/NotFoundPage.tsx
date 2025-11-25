@@ -1,5 +1,3 @@
-import "../styles/pages/NotFoundPage.css";
-
 export const NotFoundPage = () => {
   return (
     <div style={{ padding: "50px", textAlign: "center" }}>
