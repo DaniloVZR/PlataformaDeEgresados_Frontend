@@ -30,11 +30,17 @@ export const AdminPublicaciones = () => {
 
   useEffect(() => {
     cargarPublicaciones();
-  }, [filtros.page]);
+  }, [filtros.page, filtros.buscar]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setFiltros((prev) => ({ ...prev, buscar: searchQuery, page: 1 }));
+      if (filtros.buscar !== searchQuery) {
+        setFiltros((prev) => ({
+          ...prev,
+          buscar: searchQuery,
+          page: 1 // Resetear a página 1 al buscar
+        }));
+      }
     }, 500);
     return () => clearTimeout(timer);
   }, [searchQuery]);
@@ -91,9 +97,9 @@ export const AdminPublicaciones = () => {
       {/* Header */}
       <header className="admin-header">
         <div className="admin-header-content">
-          <button onClick={() => navigate("/admin")} className="btn-back">
+          <button onClick={() => navigate("/admin")} className="navbar-back">
             <IconArrowLeft size={24} />
-            <span>Volver al dashboard</span>
+            <span>Dashboard</span>
           </button>
           <h1>Gestión de Publicaciones</h1>
           <p className="header-subtitle">

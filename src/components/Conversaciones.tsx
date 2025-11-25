@@ -14,7 +14,6 @@ export const Conversaciones = memo(() => {
   const cargarContadorNoLeidos = useMensajeStore(state => state.cargarContadorNoLeidos);
 
   useEffect(() => {
-    console.log('🔄 Conversaciones component mounted');
     cargarConversaciones();
     cargarContadorNoLeidos();
 
@@ -41,8 +40,6 @@ export const Conversaciones = memo(() => {
   const estaEnLinea = (usuarioId: string) => {
     return usuariosConectados.includes(usuarioId);
   };
-
-  console.log('🔄 Conversaciones rendering, cantidad:', conversaciones.length);
 
   return (
     <div className="conversaciones-sidebar">

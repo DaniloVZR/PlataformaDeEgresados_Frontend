@@ -53,9 +53,9 @@ export const AdminDashboard = () => {
       {/* Header */}
       <header className="admin-header">
         <div className="admin-header-content">
-          <button onClick={() => navigate("/home")} className="btn-back">
+          <button onClick={() => navigate("/home")} className="navbar-back">
             <IconArrowLeft size={24} />
-            <span>Volver al inicio</span>
+            <span>Inicio</span>
           </button>
           <div className="admin-title">
             <IconShieldCheck size={32} color="#7a3e9d" />

@@ -234,6 +234,8 @@ const PerfilPage: React.FC = () => {
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="navbar-mobile-toggle">
             {mobileMenuOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
           </button>
+
+
         </div>
 
         {mobileMenuOpen && (

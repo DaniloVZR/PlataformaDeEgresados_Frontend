@@ -167,6 +167,14 @@ export const Home = () => {
               Buscar Egresados
             </button>
 
+            <button
+              onClick={() => navigate("/mensajes")}
+              className="navbar-mobile-btn navbar-mobile-btn-outline"
+            >
+              <IconMessage size={22} />
+              Mensajes
+            </button>
+
             {usuario?.rol === 'administrador' && (
               <button
                 onClick={() => {

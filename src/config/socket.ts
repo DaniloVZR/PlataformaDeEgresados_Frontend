@@ -4,7 +4,6 @@ let socket: Socket | null = null;
 
 export const inicializarSocket = (token: string) => {
   if (socket?.connected) {
-    console.log('✅ Socket ya conectado');
     return socket;
   }
 
@@ -13,10 +12,7 @@ export const inicializarSocket = (token: string) => {
     socket = null;
   }
 
-  console.log('🔌 Inicializando socket con token...');
-
   const socketUrl = import.meta.env.VITE_API_URL.replace('/api', '');
-  console.log('📡 URL del socket:', socketUrl);
 
   socket = io(socketUrl, {
     auth: {
@@ -30,22 +26,22 @@ export const inicializarSocket = (token: string) => {
   });
 
   socket.on('connect', () => {
-    console.log('✅ Socket conectado:', socket?.id);
+    console.log('Socket conectado:', socket?.id);
   });
 
   socket.on('connect_error', (error) => {
-    console.error('❌ Error de conexión:', error.message);
+    console.error('Error de conexión:', error.message);
   });
 
   socket.on('disconnect', (reason) => {
-    console.log('❌ Socket desconectado:', reason);
+    console.log('Socket desconectado:', reason);
     if (reason === 'io server disconnect') {
       socket?.connect();
     }
   });
 
   socket.on('error', (error) => {
-    console.error('❌ Error del socket:', error);
+    console.error('Error del socket:', error);
   });
 
   return socket;
@@ -53,14 +49,12 @@ export const inicializarSocket = (token: string) => {
 
 export const conectarSocket = () => {
   if (socket && !socket.connected) {
-    console.log('🔌 Reconectando socket...');
     socket.connect();
   }
 };
 
 export const desconectarSocket = () => {
   if (socket?.connected) {
-    console.log('❌ Desconectando socket...');
     socket.removeAllListeners(); // Limpiar todos los listeners
     socket.disconnect();
     socket = null;
