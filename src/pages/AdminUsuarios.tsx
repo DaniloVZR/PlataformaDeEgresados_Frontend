@@ -18,6 +18,7 @@ import {
   type FiltrosUsuarios
 } from "../services/admin";
 import "../styles/pages/AdminUsuarios.css";
+import { alerts, notify } from "../utils/notificiations";
 
 export const AdminUsuarios = () => {
   const navigate = useNavigate();
@@ -68,17 +69,28 @@ export const AdminUsuarios = () => {
   };
 
   const handleCambiarRol = async (userId: string, nuevoRol: string) => {
-    if (!window.confirm(`¿Cambiar rol a ${nuevoRol}?`)) return;
+
+    const confirmed = await alerts.confirm({
+      title: `¿Cambiar rol a ${nuevoRol}?`,
+      text: 'El usuario tendrá permisos diferentes',
+      confirmButtonText: 'Sí, cambiar',
+    });
+
+    if (!confirmed) return;
 
     setProcesando(userId);
+    const toastId = notify.loading("Cambiando rol...");
+
     try {
       const data = await cambiarRolUsuario(userId, nuevoRol);
       if (data.success) {
-        alert(data.msg);
+        notify.dismiss(toastId);
+        notify.success(data.msg);
         cargarUsuarios();
       }
     } catch (error: any) {
-      alert(error.message || "Error al cambiar rol");
+      notify.dismiss(toastId);
+      notify.error(error.message || "Error al cambiar rol");
     } finally {
       setProcesando(null);
     }
@@ -86,21 +98,33 @@ export const AdminUsuarios = () => {
 
   const handleToggleBan = async (userId: string, activo: boolean) => {
     const accion = activo ? "suspender" : "reactivar";
-    const razon = activo
-      ? prompt("Razón de la suspensión (opcional):")
-      : undefined;
 
-    if (activo && razon === null) return;
+    let razon: string | null = null;
+
+    if (activo) {
+      razon = await alerts.prompt({
+        title: 'Razón de la suspensión',
+        text: 'Ingresa el motivo de la suspensión',
+        placeholder: 'Ej: Violación de términos de uso...',
+        inputType: 'textarea',
+      });
+
+      if (razon === null) return; // Usuario canceló
+    }
 
     setProcesando(userId);
+    const toastId = notify.loading(`${accion === 'suspender' ? 'Suspendiendo' : 'Reactivando'} usuario...`);
+
     try {
       const data = await toggleBanUsuario(userId, razon || "Motivo no especificado");
       if (data.success) {
-        alert(data.msg);
+        notify.dismiss(toastId);
+        notify.success(data.msg);
         cargarUsuarios();
       }
     } catch (error: any) {
-      alert(error.message || `Error al ${accion} usuario`);
+      notify.dismiss(toastId);
+      notify.error(error.message || `Error al ${accion} usuario`);
     } finally {
       setProcesando(null);
     }
