@@ -2,7 +2,7 @@
 
 Aplicación web responsive para la red social de egresados de la Institución Universitaria Pascual Bravo.
 
-`<img src="assets/Foto Plataforma Egresados.png" alt="Landing Page"/>`
+<img src="image/README/1764119693951.png" alt="Landing Page"/>
 
 ## 🚀 Características
 
