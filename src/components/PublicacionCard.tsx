@@ -6,6 +6,7 @@ import { useEgresadoStore } from "../store/EgresadoStore";
 import { ComentariosSection } from "./ComentariosSection";
 import { contarComentarios } from "../services/comentario";
 import "../styles/components/PublicacionCard.css";
+import { alerts, notify } from "../utils/notificiations";
 
 interface PublicacionCardProps {
   publicacion: Publicacion;
@@ -63,12 +64,21 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
   };
 
   const handleDelete = async () => {
-    if (!window.confirm("¿Estás seguro de que quieres eliminar esta publicación?")) return;
+    // AHORA:
+    const confirmed = await alerts.confirmDelete('esta publicación');
+    if (!confirmed) return;
+
     setDeleting(true);
+    const toastId = notify.loading('Eliminando publicación...');
+
     try {
       await eliminarPublicacion(publicacion._id);
+      notify.dismiss(toastId);
+      notify.success('Publicación eliminada');
     } catch (error) {
-      alert("Error al eliminar la publicación");
+      notify.dismiss(toastId);
+      notify.error("Error al eliminar la publicación");
+    } finally {
       setDeleting(false);
     }
   };
@@ -111,13 +121,15 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
     );
   }
 
+  const avatarUrl = publicacion.autor.fotoPerfil.toString() || `https://ui-avatars.com/api/?name=${encodeURIComponent(publicacion?.autor.nombre || "U")}&background=7a3e9d&color=fff`;
+
   return (
     <article className="publicacion-card">
       {/* Header */}
       <div className="publicacion-header">
         <div className="autor-info" onClick={handleAutorClick} style={{ cursor: 'pointer' }}>
           <img
-            src={publicacion.autor?.fotoPerfil || "/default-avatar.png"}
+            src={publicacion.autor?.fotoPerfil || avatarUrl}
             alt={`${publicacion.autor?.nombre} ${publicacion.autor?.apellido}`}
             className="autor-avatar"
           />
@@ -196,7 +208,7 @@ export const PublicacionCard = ({ publicacion }: PublicacionCardProps) => {
                       onClick={() => navigate(`/perfil/${like._id}`)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <img src={like.fotoPerfil || '/default-avatar.png'} alt={like.nombre || 'Usuario'} className="likes-popup-avatar" />
+                      <img src={like.fotoPerfil || avatarUrl} alt={like.nombre || 'Usuario'} className="likes-popup-avatar" />
                       <p className="likes-popup-name">{like.nombre} {like.apellido}</p>
                     </div>
                   );

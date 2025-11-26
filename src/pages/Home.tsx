@@ -8,6 +8,7 @@ import { useEffect, useState, useRef } from "react";
 import ModalCrearPublicacion from "../components/ModalCrearPublicacion";
 import { IconMessage, IconPlus, IconLogout, IconUser, IconHome, IconMenu2, IconX, IconSearch, IconShieldCheck } from "@tabler/icons-react";
 import { useMensajeStore } from "../store/MensajeStore";
+import { alerts } from "../utils/notificiations";
 
 export const Home = () => {
   const { cerrarSesion, usuario } = useUsuarioStore();
@@ -72,6 +73,18 @@ export const Home = () => {
   const handlePublicacionCreada = () => {
     cargarPublicaciones(true);
     setIsModalOpen(false);
+  };
+
+  const handleOpenModal = () => {
+    if (!egresado?.completadoPerfil) {
+      alerts.info(
+        'Completa tu perfil',
+        'Debes completar tu perfil antes de crear publicaciones. Ve a tu perfil y agrega tu información.'
+      );
+      navigate('/perfil');
+      return;
+    }
+    setIsModalOpen(true);
   };
 
   const avatarUrl = egresado?.fotoPerfil || `https://ui-avatars.com/api/?name=${encodeURIComponent(usuario?.nombre || "U")}&background=7a3e9d&color=fff`;
@@ -228,6 +241,23 @@ export const Home = () => {
           </button>
         </div>
 
+        <div>
+          {egresado && !egresado.completadoPerfil && (
+            <div className="navbar-btn-danger" style={{ cursor: 'default', marginBottom: '15px', textAlign: 'center' }}>
+              <p>Completa tu perfil para interactuar con la comunidad.</p>
+              <button
+                onClick={() => navigate('/perfil')}
+                className="btn-action"
+                style={{
+                  backgroundColor: '#6dc86f'
+                }}
+              >
+                Completar Perfil
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Botón crear (desktop) */}
         <div className="crear-publicacion-box">
           <img
@@ -260,7 +290,7 @@ export const Home = () => {
             <p>¡Sé el primero en compartir algo con la comunidad!</p>
             <button
               className="btn-crear-first"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => handleOpenModal()}
             >
               Crear publicación
             </button>
