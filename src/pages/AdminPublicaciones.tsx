@@ -14,6 +14,7 @@ import {
   type FiltrosPublicaciones
 } from "../services/admin";
 import "../styles/pages/AdminPublicaciones.css";
+import { alerts, notify } from "../utils/notificiations";
 
 export const AdminPublicaciones = () => {
   const navigate = useNavigate();
@@ -62,25 +63,33 @@ export const AdminPublicaciones = () => {
   };
 
   const handleEliminar = async (pubId: string) => {
-    const razon = prompt(
-      "Razón de la eliminación (opcional):\n\nEsta publicación será eliminada permanentemente."
-    );
+    const razon = await alerts.prompt({
+      title: 'Razón de eliminación',
+      text: 'Esta publicación será eliminada permanentemente',
+      placeholder: 'Ej: Contenido inapropiado...',
+      inputType: 'textarea',
+    });
 
     if (razon === null) return;
 
     setEliminando(pubId);
+    const toastId = notify.loading('Eliminando publicación...');
+
     try {
       const data = await eliminarPublicacionAdmin(pubId, razon);
       if (data.success) {
-        alert(data.msg);
+        notify.dismiss(toastId);
+        notify.success(data.msg);
         cargarPublicaciones();
       }
     } catch (error: any) {
-      alert(error.message || "Error al eliminar publicación");
+      notify.dismiss(toastId);
+      notify.error(error.message || "Error al eliminar publicación");
     } finally {
       setEliminando(null);
     }
   };
+
 
   const formatearFecha = (fecha: string) => {
     return new Date(fecha).toLocaleDateString("es-ES", {

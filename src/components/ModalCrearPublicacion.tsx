@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { crearPublicacion, type PublicacionData } from "../services/publicacion";
 import "../styles/components/Modal.css";
+import { notify } from "../utils/notificiations";
 
 interface ModalCrearPublicacionProps {
   isOpen: boolean;
@@ -30,12 +31,12 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
     e.preventDefault();
 
     if (!descripcion.trim()) {
-      setError("La descripción no puede estar vacía.");
+      notify.error('La descripción no puede estar vacía');
       return;
     }
 
     setLoading(true);
-    setError(null);
+    const toastId = notify.loading('Creando publicación...');
 
     try {
       const data: PublicacionData = {
@@ -49,23 +50,18 @@ const ModalCrearPublicacion: React.FC<ModalCrearPublicacionProps> = ({
       const response = await crearPublicacion(data);
 
       if (response.success) {
-        // Limpiar formulario
         setDescripcion("");
         setImagen(null);
-
-        // Resetear input de archivo
-        const fileInput = document.getElementById("file-upload") as HTMLInputElement;
-        if (fileInput) fileInput.value = "";
-
         setLoading(false);
+        notify.dismiss(toastId);
+        notify.success('¡Publicación creada!');
         onPublicacionCreada();
         onClose();
-      } else {
-        throw new Error(response.msg || "Error al crear la publicación");
       }
     } catch (err) {
       console.error("Error al publicar:", err);
-      setError(err instanceof Error ? err.message : "No se pudo crear la publicación");
+      notify.dismiss(toastId);
+      err instanceof Error && notify.error(err.message + " - Revise que sea usuario completo");
       setLoading(false);
     }
   };

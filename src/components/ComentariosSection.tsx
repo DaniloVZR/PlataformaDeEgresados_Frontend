@@ -9,6 +9,7 @@ import {
   type Comentario
 } from "../services/comentario";
 import "../styles/components/Comentarios.css";
+import { alerts, notify } from "../utils/notificiations";
 
 interface ComentariosSectionProps {
   publicacionId: string;
@@ -75,7 +76,10 @@ export const ComentariosSection = ({ publicacionId, onComentariosCountChange }: 
   };
 
   const handleEliminar = async (comentarioId: string) => {
-    if (!window.confirm("¿Eliminar este comentario?")) return;
+    const confirmed = await alerts.confirmDelete('este comentario');
+    if (!confirmed) return;
+
+    const toastId = notify.loading('Eliminando comentario...');
 
     try {
       const data = await eliminarComentario(comentarioId);
@@ -84,10 +88,13 @@ export const ComentariosSection = ({ publicacionId, onComentariosCountChange }: 
         setComentarios(comentarios.filter(c => c._id !== comentarioId));
         setTotal(prev => prev - 1);
         onComentariosCountChange?.(total - 1);
+        notify.dismiss(toastId);
+        notify.success('Comentario eliminado');
       }
     } catch (error) {
       console.error("Error al eliminar:", error);
-      alert("Error al eliminar el comentario");
+      notify.dismiss(toastId);
+      notify.error("Error al eliminar el comentario");
     }
   };
 

@@ -10,6 +10,7 @@ import { IconMessage } from "@tabler/icons-react";
 import { useMensajeStore } from "../store/MensajeStore";
 import type { Publicacion } from "../store/PublicacionStore";
 import "../styles/pages/Profile.css";
+import { notify } from "../utils/notificiations";
 
 type Tab = "publicaciones" | "likes";
 
@@ -154,7 +155,7 @@ const PerfilPage: React.FC = () => {
     const archivo = e.target.files[0];
 
     if (archivo.size > 5 * 1024 * 1024) {
-      mostrarMensaje("error", "La imagen no debe superar 5MB");
+      notify.error('La imagen no debe superar 5MB');
       return;
     }
 
@@ -162,15 +163,19 @@ const PerfilPage: React.FC = () => {
     const form = new FormData();
     form.append("fotoPerfil", archivo);
 
+    const toastId = notify.loading('Subiendo foto...');
+
     try {
       const data = await actualizarFoto(form);
       if (data.success) {
-        mostrarMensaje("success", "Foto actualizada");
+        notify.dismiss(toastId);
+        notify.success('Foto actualizada correctamente');
         setPerfil((prev: any) => ({ ...prev, fotoPerfil: data.fotoPerfil }));
         cargarMiPerfil();
       }
     } catch (error) {
-      mostrarMensaje("error", "Error al actualizar la foto");
+      notify.dismiss(toastId);
+      notify.error('Error al actualizar la foto');
     } finally {
       setSubiendoFoto(false);
     }
@@ -354,6 +359,14 @@ const PerfilPage: React.FC = () => {
           </div>
         )}
       </header>
+
+      <div>
+        {miPerfil && !miPerfil.completadoPerfil && (
+          <div className="mensaje-completar-perfil">
+            <p>Completa tu perfil para continuar con la mejor experiencia.</p>
+          </div>
+        )}
+      </div>
 
       {/* Tabs */}
       <div className="perfil-tabs">
